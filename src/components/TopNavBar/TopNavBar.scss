@@ -1,0 +1,118 @@
+.modal-dialog{
+  top: 12vh;
+}
+
+/* The following block can be included in a custom.scss */
+
+/* make the customizations */
+$theme-colors: (
+    "info": tomato,
+    "danger": teal
+);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+
+.topnavbar-container {
+    
+    width: 100%;
+    min-height: 6vh;
+    border-bottom: 1px solid #090302;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: #8EB19D;
+    transition: all .7s ease-in;
+
+  .scrolled {
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;    
+    width: inherit;
+    min-height: 6vh;
+    background-color: inherit;
+    box-shadow: 10px 10px 8px #090302;
+    border-bottom: 1px solid #090302;
+    box-sizing: border-box;
+    background-color: #8EB19D;
+    transition: all .3s ease-in;    
+  }
+
+  .logo {
+    height: 2.2rem;
+  }  
+
+  a {
+    font-weight: bold;
+    text-decoration: none;
+    transition-duration: 0.5s;
+    color: #090302;
+  }
+
+  a:link, a:visited, a:focus {
+    color: #090302;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #009DDC;
+  }
+
+
+  a#basic-nav-dropdown.dropdown-toggle.nav-link {
+    color: #090302;
+  }
+
+  a#basic-nav-dropdown.dropdown-toggle.nav-link:hover {
+    color: #009DDC;
+  }
+
+  div.nav-item > a {
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.2);
+  }
+
+  .dropdown-item {
+    color: red;
+    background-color: transparent;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.2);
+  }
+
+  div.nav-item {
+    background-color: transparent;
+  }
+
+
+  button.btn.btn-outline-success {
+    font-weight: bold;
+    color: #090302;
+  }
+
+  button.btn.btn-outline-success:hover {
+    font-weight: bold;
+    color: #009DDC;
+  }  
+
+  a:hover {
+    cursor: pointer;
+  }  
+
+  .span-nav-link {
+    color: #090302;
+    transition-duration: 0.5s;
+  }
+
+  .span-nav-link:hover {
+    color: #009DDC;
+    transition-duration: 0.5s;
+  }
+
+}

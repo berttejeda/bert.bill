@@ -1,0 +1,24 @@
+.input-container {
+  text-align: center;
+
+  .textinput {
+    width: 30rem;
+    color: #2c3e50;
+  }
+
+  .button {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #68B0AB;
+    padding: .8rem 1.6rem;
+    border-radius: 4px;
+    transition: background-color .1s ease;
+    box-sizing: border-box;
+    border-bottom: 1px solid #389d70;
+
+    &:hover {
+      background-color: #4abf8a;
+    }
+  }
+}
