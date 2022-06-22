@@ -20,7 +20,7 @@ class Lessons:
       'GLOBAL_PASSWORD') or self.args.password  # or self.config_util.get(self.settings,'auth.global.password')
 
   def encode_lesson(self, rendered_lesson):
-      rendered_lesson_bytes = rendered_lesson.encode("ascii")
+      rendered_lesson_bytes = rendered_lesson.encode("utf-8")
       encoded_lesson = base64.b64encode(rendered_lesson_bytes)
       return encoded_lesson.decode("utf-8")
 
@@ -56,7 +56,9 @@ class Lessons:
                                                       'markdown.extensions.admonition',
                                                       'markdown.extensions.attr_list',
                                                       'markdown.extensions.codehilite',
-                                                      'markdown.extensions.toc']
+                                                      'markdown.extensions.toc',
+                                                      'pymdownx.emoji',
+                                                      'pymdownx.details']
                                           )
       return rendered_lesson
 
