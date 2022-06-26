@@ -10,7 +10,7 @@ class WebTerminal:
   def __init__(self):
     pass
 
-  async def websocket_handler(self, request):
+  async def posix_websocket_handler(self, request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
     loop = asyncio.get_running_loop()
@@ -52,5 +52,5 @@ class WebTerminal:
   def start(self, **kwargs):
     port = kwargs.get('port', 5001)
     app = web.Application()
-    app.add_routes([web.get('/ws', self.websocket_handler)])
+    app.add_routes([web.get('/ws', self.posix_websocket_handler)])
     web.run_app(app, port=int(port))
