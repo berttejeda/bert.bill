@@ -4,6 +4,11 @@ import aiohttp
 import os
 import pty
 import fcntl
+import sys
+
+from bertdotbill.logger import Logger
+
+logger = Logger().init_logger(__name__)
 
 class WebTerminal:
 
@@ -50,7 +55,13 @@ class WebTerminal:
     return ws
 
   def start(self, **kwargs):
-    port = kwargs.get('port', 5001)
-    app = web.Application()
-    app.add_routes([web.get('/ws', self.posix_websocket_handler)])
-    web.run_app(app, port=int(port))
+
+    if sys.platform == 'win32':
+        logger.info('The WebTerminal websocket component is not yet implemented for this OS')
+    else:
+        logger.info('Staring WebTerminal websocket')
+        port = kwargs.get('port', 5001)
+        app = web.Application()
+        app.add_routes([web.get('/ws', self.posix_websocket_handler)])
+        web.run_app(app, port=int(port))
+
