@@ -23,7 +23,7 @@ mimetypes.add_type('text/css', '.css')
 args = parse_args()
 # Initialize logging facility
 logger_obj = Logger(logfile_path=args.logfile_path, logfile_write_mode=args.logfile_write_mode)
-logger = logger_obj.init_logger(__name__)
+logger = logger_obj.init_logger('app')
 
 # Initialize Config Reader
 settings = AppConfig().initialize(
@@ -53,9 +53,6 @@ if static_assets_folder:
     app = Flask(__name__, static_url_path='', static_folder=static_assets_folder)
     if args.cors_origin:
       CORS(app, resources={r"*": {"origins": args.cors_origin}})
-    local_url = f"http://localhost:{args.port}"
-    if 'WERKZEUG_RUN_MAIN' not in os.environ:
-      threading.Timer(args.open_browser_delay, lambda: webbrowser.open(local_url)).start()
 else:
     logger.info('Serving API Only, no static assets')
     app = Flask(__name__)
@@ -119,6 +116,11 @@ def start_api():
     return {'message': "pong"}
 
   logger.info("Starting API")
+
+  local_url = f"http://localhost:{args.port}"
+  if 'WERKZEUG_RUN_MAIN' not in os.environ:
+    threading.Timer(args.open_browser_delay, lambda: webbrowser.open(local_url)).start()    
+
   if args.all_in_one:
     app.run(host=args.host_address, port=args.port)
   else:
@@ -130,6 +132,7 @@ if __name__ == '__main__':
       import multiprocessing as mp
       if hasattr(os, 'getppid'):  # only available on Unix
           logger.info(f'parent process: {os.getppid()}')
+      
       proc_api = mp.Process(target=start_api)
       proc_api.deamon = True
       proc_api.start()
