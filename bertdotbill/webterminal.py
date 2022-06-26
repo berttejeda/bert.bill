@@ -33,7 +33,7 @@ class WebTerminal:
     fcntl.fcntl(master, fcntl.F_SETFL, fl | os.O_NONBLOCK)
     def pipe_data_received(ws):
         data = stdin.read()
-        print('Incoming data: %s' % data)
+        logger.debug(f'Incoming data: {data}')
         try:
             asyncio.ensure_future(ws.send_str(data.decode()))
         except:
@@ -46,12 +46,12 @@ class WebTerminal:
             stdin.write(msg.data)
         elif msg.type == aiohttp.WSMsgType.CLOSE:
             await ws.close()
-            print('Connection closed with WSMsgType.CLOSE (PID:%s)' % pid)
+            logger.info('Connection closed with WSMsgType.CLOSE (PID:%s)' % pid)
         elif msg.type == aiohttp.WSMsgType.CLOSED:
-            print('Connection closed with WSMsgType.CLOSED (PID:%s)' % pid)
+            logger.info('Connection closed with WSMsgType.CLOSED (PID:%s)' % pid)
         elif msg.type == aiohttp.WSMsgType.ERROR:
-            print('Connection closed with WSMsgType.ERROR (PID:%s)' % pid)
-    print('Connection refreshed (PID:%s)' % pid)
+            logger.info('Connection closed with WSMsgType.ERROR (PID:%s)' % pid)
+    logger.info('Connection refreshed (PID:%s)' % pid)
     return ws
 
   def start(self, **kwargs):
