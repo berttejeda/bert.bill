@@ -1,6 +1,5 @@
 import base64
 from bertdotbill.logger import Logger
-import json
 
 logger = Logger().init_logger(__name__)
 
@@ -14,7 +13,6 @@ class Topics():
 
     logger.info('Retrieving available topics')
     topics = self.settings.get('topics', [])
-
     if isinstance(topics, list):
       logger.info('Successfully retrieved available topics')
       return {'topics': topics}

@@ -17,6 +17,7 @@ def parse_args(**kwargs):
   parser.add_argument('--logfile-write-mode', '-w', default='w', choices=['a', 'w'], help="File mode when writing to log file, 'a' to append, 'w' to overwrite")
   parser.add_argument('--config-file-templatized', '-fT', action='store_true', default=True, help="Render configuration via jinja2 templating")
   parser.add_argument('--api-only', action='store_true', help="Don't serve static assets, only start API")
+  parser.add_argument('--all-in-one', '-aio', action='store_true', help="Run the shell websocket process alongside app")
   parser.add_argument('--debug', action='store_true')
   parser.add_argument('--verify-tls', action='store_true', help='Verify SSL cert when downloading web content', default=False)
   parser.add_argument('--norender-markdown', '-nomarkdown', action='store_true')
