@@ -12,22 +12,29 @@ logger = Logger().init_logger(__name__)
 
 class WebTerminal:
 
-  def __init__(self):
-    pass
+  def __init__(self, settings={}, **kwargs):
+    self.settings = settings
 
   async def posix_websocket_handler(self, request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
     loop = asyncio.get_running_loop()
     master, slave = pty.openpty()
-    name = os.ttyname(slave)
+    tty_name = os.ttyname(slave)
+    logger.info(f'TTY Name is {tty_name}')
     pid = os.fork()
+    terminal_env = os.environ.copy()
+    terminal_env["SHELL"] = "bash"
+    terminal_env["TERM"] = "xterm"
+    terminal_env["WEBTERMINAL"] = "True"
+    for k, v in self.settings.get('webterminal', {}).get('env', {}).items():
+        terminal_env[k] = v
     if pid == 0:
         os.setsid()
         os.dup2(slave,0)
         os.dup2(slave,1)
         os.dup2(slave,2)
-        os._exit(os.execv('/bin/bash',('$', )))
+        os._exit(os.execve('/bin/bash',('-i', ),terminal_env))
     stdin = os.fdopen(master, 'wb+', buffering=0)
     fl = fcntl.fcntl(master, fcntl.F_GETFL)
     fcntl.fcntl(master, fcntl.F_SETFL, fl | os.O_NONBLOCK)
