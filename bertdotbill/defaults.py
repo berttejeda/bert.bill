@@ -8,6 +8,7 @@ default_config_file_name = 'bill.config.yaml'
 default_host = '0.0.0.0'
 default_port = 5000
 default_open_browser_delay = 1.25
+default_webterminal_port = 5001
 
 settings = {
   "terminals": {

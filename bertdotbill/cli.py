@@ -1,5 +1,9 @@
 import argparse
-from bertdotbill.defaults import app_name, default_host, default_open_browser_delay, default_port
+from bertdotbill.defaults import app_name, \
+  default_host, \
+  default_open_browser_delay, \
+  default_port, \
+  default_webterminal_port
 
 def parse_args(**kwargs):
 
@@ -13,6 +17,7 @@ def parse_args(**kwargs):
   parser.add_argument('--logfile-path', '-L', help="Path to logfile")
   parser.add_argument('--host-address', '-l', help="Override default host address", default=default_host)
   parser.add_argument('--port', '-p', help="Override default listening port", default=default_port)
+  parser.add_argument('--webterminal-port', '-wp', help="Override default listening port for the webterminal socket", default=default_webterminal_port)
   parser.add_argument('--open-browser-delay', '-bd', help="Override default time in seconds to delay when opening the system's web browser", default=default_open_browser_delay)
   parser.add_argument('--logfile-write-mode', '-w', default='w', choices=['a', 'w'], help="File mode when writing to log file, 'a' to append, 'w' to overwrite")
   parser.add_argument('--config-file-templatized', '-fT', action='store_true', default=True, help="Render configuration via jinja2 templating")

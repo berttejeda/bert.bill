@@ -63,7 +63,7 @@ else:
       CORS(app, resources={r"*": {"origins": "*"}})
 
 def start_webterminal():
-  WebTerminal().start(port=5001)
+  WebTerminal(settings).start(port=args.webterminal_port)
 
 def start_api():
   # Serve React App
