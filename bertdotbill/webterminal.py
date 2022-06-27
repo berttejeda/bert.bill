@@ -2,9 +2,11 @@ import asyncio
 from aiohttp import web
 import aiohttp
 import os
-import pty
-import fcntl
 import sys
+
+if sys.platform != 'win32':
+    import pty
+    import fcntl
 
 from bertdotbill.logger import Logger
 
