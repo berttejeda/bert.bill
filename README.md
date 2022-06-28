@@ -271,17 +271,17 @@ terminals is [xterm.js](https://github.com/xtermjs/xterm.js/).
 As such, the xterm.js component requires a websocket to a bash process.
 
 By [default](bertdotbill/defaults.py), the bert.bill desktop app 
-will attempt to connect to a local instance of the websocket via _http://127.0.0.1:5000/_.
+will attempt to connect to a local instance of the websocket via _http://127.0.0.1:10000/_.
 
 You can get this websocket running either by:
 
-- Running the pre-built docker image: `docker run --rm -it --name aiohttp -p 5000:5000 berttejeda/aiohttp-websocket-bash`
+- Running the pre-built docker image: `docker run --rm -it --name aiohttp -p 10000:10000 berttejeda/aiohttp-websocket-bash`
 - Running the pre-built docker image above via the Web UI (click _Utilities_, then _Launch Local Web Terminal_)
 - Launching the bash+websocket script yourself: https://github.com/berttejeda/bert.docker/blob/master/shared/start-bash-websocket.py<br />
   Note: The script will only work on a POSIX OS
 
 Either of the commands above will start the websocket 
-and bash process on the target platform on port 5000 by default.
+and bash process on the target platform on port 10000 by default.
 
 Feel free to adjust either approach to your need, 
 e.g. change the listening port, but be aware that the desktop app's 
