@@ -6,9 +6,9 @@ default_footer_websocket_address = default_websocket_address
 default_rightpane_websocket_address = default_websocket_address
 default_config_file_name = 'bill.config.yaml'
 default_host = '0.0.0.0'
-default_port = 5000
+default_port = 10000
 default_open_browser_delay = 1.25
-default_webterminal_port = 5001
+default_webterminal_port = 10001
 
 settings = {
   "terminals": {
