@@ -36,7 +36,7 @@ else:
     static_assets_folder = args.static_assets_folder or get_static_folder()
     logger.info(f'Static assets folder is {static_assets_folder}')
 
-# Initialize Lesson Loader
+# Initialize Topics Loader
 topics = Topics(
   settings=settings,
   args=args)

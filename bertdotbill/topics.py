@@ -13,9 +13,9 @@ class Topics():
 
     logger.info('Retrieving available topics')
     topics = self.settings.get('topics', [])
-    if isinstance(topics, list):
+    if isinstance(topics, dict):
       logger.info('Successfully retrieved available topics')
       return {'topics': topics}
     else:
       logger.error("Improperly structured 'topics' config block, seek --help")
-      return {'topics': []}
+      return {'topics': {}}

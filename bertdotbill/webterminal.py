@@ -29,7 +29,7 @@ class WebTerminal:
     terminal_env["SHELL"] = "bash"
     terminal_env["TERM"] = "xterm"
     terminal_env["WEBTERMINAL"] = "True"
-    for k, v in self.settings.get('webterminal', {}).get('env', {}).items():
+    for k, v in self.settings.get('webterminal.env', {}).items():
         terminal_env[k] = v
     if pid == 0:
         os.setsid()

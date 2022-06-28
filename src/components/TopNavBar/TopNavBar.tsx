@@ -178,15 +178,13 @@ export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
           <Nav.Link href="#home"><span className='span-nav-link' onClick={onClickAbout}>About</span>{AboutModal}</Nav.Link>
           <NavDropdown title="Available Topics" id="basic-nav-dropdown">
             { (topics != []) ?
-              Object.entries(topics).map(topicKey => 
-                Object.entries(topicKey[1]).map(([topicDataKey, topicData]) =>
-                <NavDropdown title={topicDataKey} key={topicDataKey} id={"basic-nav-dropdown-" + topicDataKey}>
-                  {Object.entries(topicData.lessons).map(([lessonDataKey, lessonData]) =>                     
-                    <NavDropdown.Item href='#' key={topicDataKey + "-" + lessonDataKey} onClick={() => {handleLoadLesson(lessonData.url)}}>
-                    {lessonData.name}
-                    </NavDropdown.Item>
-                  )}
-                </NavDropdown>
+              Object.keys(topics).map(topicKey =>
+                Object.entries(topics[topicKey].lessons).map(([lessonDataKey, lessonData]) =>
+                <NavDropdown title={topicKey} key={topicKey} id={"basic-nav-dropdown-" + topicKey}>
+                      <NavDropdown.Item href='#' key={topicKey + "-" + lessonData.name} onClick={() => {handleLoadLesson(lessonData.url)}}>
+                      {lessonData.name}
+                      </NavDropdown.Item>                
+                </NavDropdown>                
                 )
               )
               :<NavDropdown.Item>No Lesson Data Available</NavDropdown.Item>
