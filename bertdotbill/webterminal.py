@@ -1,6 +1,7 @@
 import asyncio
 from aiohttp import web
 import aiohttp
+from bertdotbill.defaults import default_webterminal_port
 import os
 import sys
 
@@ -69,7 +70,7 @@ class WebTerminal:
         logger.info('The WebTerminal websocket component is not yet implemented for this OS')
     else:
         logger.info('Staring WebTerminal websocket')
-        port = kwargs.get('port', 5001)
+        port = kwargs.get('port', default_webterminal_port)
         app = web.Application()
         app.add_routes([web.get('/ws', self.posix_websocket_handler)])
         web.run_app(app, port=int(port))
