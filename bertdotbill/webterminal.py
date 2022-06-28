@@ -1,7 +1,11 @@
 import asyncio
 from aiohttp import web
 import aiohttp
-from bertdotbill.defaults import default_webterminal_port
+from bertdotbill.defaults import \
+default_webterminal_env, \
+default_webterminal_port, \
+default_webterminal_shell_path, \
+default_webterminal_shell_command
 import os
 import sys
 
@@ -26,18 +30,18 @@ class WebTerminal:
     tty_name = os.ttyname(slave)
     logger.info(f'TTY Name is {tty_name}')
     pid = os.fork()
-    terminal_env = os.environ.copy()
-    terminal_env["SHELL"] = "bash"
-    terminal_env["TERM"] = "xterm"
-    terminal_env["WEBTERMINAL"] = "True"
-    for k, v in self.settings.get('webterminal.env', {}).items():
-        terminal_env[k] = v
+    webterminal_env = os.environ.copy()
+    webterminal_extra_env = self.settings.get('webterminal.env', default_webterminal_env)
+    webterminal_shell_path = self.settings.get('webterminal.shell.path', default_webterminal_shell_path)
+    webterminal_shell_command = self.settings.get('webterminal.shell.command', default_webterminal_shell_command)
+    for k, v in webterminal_extra_env.items():
+        webterminal_env[k] = v
     if pid == 0:
         os.setsid()
         os.dup2(slave,0)
         os.dup2(slave,1)
         os.dup2(slave,2)
-        os._exit(os.execve('/bin/bash',('-i', ),terminal_env))
+        os._exit(os.execve(webterminal_shell_path,webterminal_shell_command,webterminal_env))
     stdin = os.fdopen(master, 'wb+', buffering=0)
     fl = fcntl.fcntl(master, fcntl.F_GETFL)
     fcntl.fcntl(master, fcntl.F_SETFL, fl | os.O_NONBLOCK)

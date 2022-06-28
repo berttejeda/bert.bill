@@ -1,4 +1,4 @@
-from bertdotbill.defaults import settings as default_settings
+from bertdotbill.defaults import default_settings
 from bertdotbill.defaults import default_config_file_name
 from bertdotbill.logger import Logger
 import os
