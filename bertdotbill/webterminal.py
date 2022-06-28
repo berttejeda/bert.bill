@@ -19,7 +19,7 @@ logger = Logger().init_logger(__name__)
 
 class WebTerminal:
 
-  def __init__(self, settings={}, **kwargs):
+  def __init__(self, settings, **kwargs):
     self.settings = settings
 
   async def posix_websocket_handler(self, request):
