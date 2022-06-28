@@ -118,7 +118,7 @@ def start_api():
   logger.info("Starting API")
 
   local_url = f"http://localhost:{args.port}"
-  if 'WERKZEUG_RUN_MAIN' not in os.environ:
+  if 'WERKZEUG_RUN_MAIN' not in os.environ and not args.api_only:
     threading.Timer(args.open_browser_delay, lambda: webbrowser.open(local_url)).start()    
 
   if args.all_in_one:
