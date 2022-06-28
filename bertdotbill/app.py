@@ -126,7 +126,7 @@ def start_api():
   else:
     app.run(use_reloader=True, host=args.host_address, port=args.port)
 
-if __name__ == '__main__':
+def main():
 
     if args.all_in_one:
       import multiprocessing as mp
@@ -146,5 +146,8 @@ if __name__ == '__main__':
 
     else:
         start_api()
+                
+if __name__ == '__main__':
+  main()
 
 
