@@ -72,21 +72,21 @@ def do_if_not_frozen():
     logger.debug(f'pip package does not exist: {e}')
     pass
   static_folder_search_paths = [
-      '.',
+      os.getcwd(),
       os.path.realpath(os.path.expanduser('~')),
       os.path.join(os.path.abspath(os.sep), 'etc'),
       package_path,
       os.path.abspath(os.path.join(package_path, os.pardir, 'scripts')),
       os.path.abspath(os.path.join(package_path, os.pardir, 'Scripts')),
       os.path.abspath(os.path.join(project_root, os.pardir))
-  ]
+  ] + [p[1] for p in sysconfig.get_paths().items()]
   static_folder_paths = [
       os.path.expanduser(os.path.join(p, gui_dirname))
       for p in static_folder_search_paths
   ]
   static_folder_found = False
   for static_folder_path in static_folder_paths:
-      logger.info(f'Checking {static_folder_path}')
+      logger.debug(f'Checking {static_folder_path}')
       if os.path.exists(static_folder_path):
           logger.info(f'Found {static_folder_path}')
           return static_folder_path
