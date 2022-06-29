@@ -1,4 +1,4 @@
-from bertdotbill.defaults import default_webterminal_host, default_webterminal_port
+from bertdotbill.defaults import default_webterminal_host_address, default_webterminal_port
 
 import os
 
@@ -15,7 +15,7 @@ class WebTerminal:
 
     logger.info('Staring WebTerminal websocket')
     port = kwargs.get('port', default_webterminal_port)
-    host = kwargs.get('host', default_webterminal_host)
+    host = kwargs.get('host', default_webterminal_host_address)
 
     if os.name == 'nt':
         # Utilize tornado for the webterminal websocket server

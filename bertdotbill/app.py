@@ -1,7 +1,11 @@
 from bertdotbill.cli import parse_args
 from bertdotbill.config import AppConfig
-from bertdotbill.defaults import default_footer_websocket_address
-from bertdotbill.defaults import default_rightpane_websocket_address
+from bertdotbill.defaults import default_app_port, \
+default_app_host_address, \
+default_footer_websocket_address, \
+default_webterminal_host_address, \
+default_webterminal_port, \
+default_rightpane_websocket_address
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
 from bertdotbill.topics import Topics
@@ -64,7 +68,9 @@ else:
       CORS(app, resources={r"*": {"origins": "*"}})
 
 def start_webterminal():
-  WebTerminal(settings).start(host=args.webterminal_host_address, port=args.webterminal_port)
+  webterminal_host_address = args.webterminal_host_address or default_webterminal_host_address
+  webterminal_port = args.webterminal_port or default_webterminal_port
+  WebTerminal(settings).start(host=webterminal_host_address, port=webterminal_port)
 
 def start_api():
   # Serve React App
@@ -126,14 +132,17 @@ def start_api():
 
   logger.info("Start API")
 
-  local_url = f"http://localhost:{args.port}"
+  app_port = args.port or default_app_port
+  app_host_address = args.host_address or default_app_host_address
+
+  local_url = f"http://localhost:{app_port}"
   if 'WERKZEUG_RUN_MAIN' not in os.environ and not args.api_only:
-    threading.Timer(args.open_browser_delay, lambda: webbrowser.open(local_url)).start()    
+    threading.Timer(args.open_browser_delay, lambda: webbrowser.open(local_url)).start()
 
   if args.all_in_one:
-    app.run(host=args.host_address, port=args.port)
+    app.run(host=app_host_address, port=app_port)
   else:
-    app.run(use_reloader=True, host=args.host_address, port=args.port)
+    app.run(use_reloader=True, host=app_host_address, port=app_port)
 
   logger.info("Stop API")
 
