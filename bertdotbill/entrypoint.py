@@ -71,27 +71,28 @@ def do_if_not_frozen():
   except Exception as e:
     logger.debug(f'pip package does not exist: {e}')
     pass
-  if os.path.isdir(package_path):
-    logger.debug('Detected installation type is "pip"')
-    static_folder_relative = f'./{gui_dirname}'
-    static_folder = os.path.join(package_path, gui_dirname)
-  else:
-    logger.debug('Detected installation type is "development"')
-    static_folder_relative = f'../{gui_dirname}'
-    static_folder = os.path.join(project_root, static_folder_relative)
-  logger.info(f'Checking {static_folder}')
-  if os.path.exists(static_folder):
-    logger.info(f'Found {static_folder}')
-    return static_folder
-  else:
-    static_folder = f'{package_path}/../scripts/{gui_dirname}'
-    if os.path.exists(static_folder):
-      logger.info(f'Found {static_folder}')
-      return static_folder
-    else:
-      # Fallback paths
-      logger.error(f'{static_folder} not found')
-      return None
+  static_folder_search_paths = [
+      '.',
+      os.path.realpath(os.path.expanduser('~')),
+      os.path.join(os.path.abspath(os.sep), 'etc'),
+      package_path,
+      os.path.abspath(os.path.join(package_path, os.pardir, 'scripts')),
+      os.path.abspath(os.path.join(package_path, os.pardir, 'Scripts')),
+      os.path.abspath(os.path.join(project_root, os.pardir))
+  ]
+  static_folder_paths = [
+      os.path.expanduser(os.path.join(p, gui_dirname))
+      for p in static_folder_search_paths
+  ]
+  static_folder_found = False
+  for static_folder_path in static_folder_paths:
+      logger.info(f'Checking {static_folder_path}')
+      if os.path.exists(static_folder_path):
+          logger.info(f'Found {static_folder_path}')
+          return static_folder_path
+  if not static_folder_found:
+    logger.error(f'Could not find static assets folder in any of the expected locations')
+    return None
 
 def get_static_folder():
   logger.info('Determining path to static assets')
