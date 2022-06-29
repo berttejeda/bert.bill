@@ -11,6 +11,7 @@ from bertdotbill.websocket import WebSocket
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
+import requests
 import threading
 import webbrowser
 
@@ -101,9 +102,17 @@ def start_api():
 
   @app.route('/api/getFooterWebSocketAddress')
   def get_footer_websocket_address():
-    default_address = settings.get('terminals.footer.address', default_footer_websocket_address)
-    effective_address = default_address
-    response_obj = {'address': effective_address}
+    if args.webterminal_host_address and args.webterminal_port:
+        footer_websocket_address = f'{args.webterminal_host_address}:{args.webterminal_port}'
+    else:
+        footer_websocket_address = settings.get('terminals.footer.address', default_footer_websocket_address)
+    if os.name == 'nt':
+        footer_http_address = footer_websocket_address.replace('ws', 'http')
+        footer_query = f'{footer_http_address}/api/terminals?cols=38&rows=25'
+        footer_request = requests.post(footer_query)
+        if footer_request.status_code == 200:
+            footer_websocket_address = f'{footer_websocket_address}/terminals/{footer_request.text}'
+    response_obj = {'address': footer_websocket_address}
     return response_obj
 
   @app.route('/api/getTopics')
