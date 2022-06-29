@@ -39,7 +39,8 @@ def do_if_not_frozen():
   import site
   import sysconfig
   root_package_name = __name__.split('.')[0]
-  site_packages_path = sysconfig.get_paths()['purelib']
+  site_packages_path = sysconfig.get_paths().get('purelib', 'DNE')
+  site_packages_data_path = sysconfig.get_paths().get('data', 'DNE')
   user_scripts_paths = [p for p in site.getsitepackages() if 'site-packages' in p]
   if len(user_scripts_paths) > 0:
     user_scripts_path = user_scripts_paths[0]
@@ -51,6 +52,7 @@ def do_if_not_frozen():
   logger.debug(f'Root Package Path: {root_package_path}')
   logger.debug(f'Site Packages Path: {site_packages_path}')
   logger.debug(f'User Scripts Path: {user_scripts_paths}')
+  logger.debug(f'Site Packages Data Path: {site_packages_data_path}')
   try:
     import bertdotbill
     pip_package_path = ''.join(bertdotbill.__path__)
@@ -76,6 +78,7 @@ def do_if_not_frozen():
       os.path.realpath(os.path.expanduser('~')),
       os.path.join(os.path.abspath(os.sep), 'etc'),
       package_path,
+      os.path.join(site_packages_data_path,'bin'),
       os.path.abspath(os.path.join(package_path, os.pardir, 'scripts')),
       os.path.abspath(os.path.join(package_path, os.pardir, 'Scripts')),
       os.path.abspath(os.path.join(project_root, os.pardir))
