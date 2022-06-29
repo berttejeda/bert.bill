@@ -59,7 +59,7 @@ def do_if_not_frozen():
     logger.debug(f'Pip Package Path: {pip_package_path}')
     if re.search('dist-packages|site-packages', pip_package_path):
       logger.debug('Found pip package path at %s' % pip_package_path)
-      if sys.platform == 'win32':
+      if os.name == 'nt':
         package_path = root_package_path if os.path.isdir(root_package_path) else user_package_path
       else:
         pattern = re.compile('/lib/.*')
