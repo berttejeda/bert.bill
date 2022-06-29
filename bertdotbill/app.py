@@ -115,7 +115,7 @@ def start_api():
   def get_current_time():
     return {'message': "pong"}
 
-  logger.info("Starting API")
+  logger.info("Start API")
 
   local_url = f"http://localhost:{args.port}"
   if 'WERKZEUG_RUN_MAIN' not in os.environ and not args.api_only:
@@ -125,6 +125,8 @@ def start_api():
     app.run(host=args.host_address, port=args.port)
   else:
     app.run(use_reloader=True, host=args.host_address, port=args.port)
+
+  logger.info("Stop API")
 
 def main():
 
