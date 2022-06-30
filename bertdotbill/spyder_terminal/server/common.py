@@ -3,8 +3,8 @@
 
 import tornado
 import os.path
-import spyder_terminal.server.routes as routes
-from spyder_terminal.server.logic.term_manager import TermManager
+import bertdotbill.spyder_terminal.server.routes as routes
+from bertdotbill.spyder_terminal.server.logic.term_manager import TermManager
 
 
 def create_app(shell, close_future=None):

@@ -15,11 +15,11 @@ import pytest
 from flaky import flaky
 from tornado import testing, websocket, gen
 from tornado.concurrent import Future
-from spyder.utils.programs import find_program
+from bertdotbill.spyder.utils.programs import find_program
 
 sys.path.append(osp.realpath(osp.dirname(__file__) + "/.."))
 
-from spyder_terminal.server.common import create_app
+from bertdotbill.spyder_terminal.server.common import create_app
 
 LOCATION = os.path.realpath(os.path.join(os.getcwd(),
                                          os.path.dirname(__file__)))
