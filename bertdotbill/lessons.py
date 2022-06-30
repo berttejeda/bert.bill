@@ -24,7 +24,7 @@ class Lessons:
       encoded_lesson = base64.b64encode(rendered_lesson_bytes)
       return encoded_lesson.decode("utf-8")
 
-  def render_lesson(self, lesson_url, lesson_content, norender_markdown=False):
+  def render_lesson(self, lesson_url, lesson_content, no_render_markdown=False):
 
     initial_data = {
       'environment': os.environ
@@ -48,7 +48,7 @@ class Lessons:
         ''' % (lesson_url, err)
                          )
       return rendered_lesson
-    if norender_markdown:
+    if no_render_markdown:
       return rendered_lesson
     else:
       rendered_lesson = markdown.markdown(rendered_lesson,
@@ -63,7 +63,7 @@ class Lessons:
       return rendered_lesson
 
   # TODO: lesson_url should be renamed to lesson_url
-  def load_lesson(self, lesson_url, no_ui=False, norender_markdown=False):
+  def load_lesson(self, lesson_url, no_ui=False, no_render_markdown=False):
     lesson_url = os.environ.get('lesson_url') or lesson_url
     res_ok = False
     # TODO: Employ per-lesson credentials
@@ -89,7 +89,7 @@ class Lessons:
       if res_ok:
         lesson_content = res
         logger.info('Attempting to render and encode lesson at %s' % lesson_url)
-        rendered_lesson = self.render_lesson(lesson_url, lesson_content, norender_markdown=norender_markdown)
+        rendered_lesson = self.render_lesson(lesson_url, lesson_content, no_render_markdown=no_render_markdown)
         logger.debug(rendered_lesson)
         try:
           encoded_lesson = self.encode_lesson(rendered_lesson)
@@ -113,7 +113,7 @@ class Lessons:
                                 password=self.global_password,
                                 cache_path='.')
       lesson_content = str(res)
-      rendered_lesson = self.render_lesson(lesson_content, norender_markdown=norender_markdown)
+      rendered_lesson = self.render_lesson(lesson_content, no_render_markdown=no_render_markdown)
       print(rendered_lesson)
 
   def save_content(self, content):

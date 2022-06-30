@@ -49,7 +49,7 @@ topics = Topics(
 # Initialize Lesson Loader
 lessons = Lessons(
     settings=settings,
-    args=args)
+    args=args, no_render_markdown=args.no_render_markdown)
 
 # Initialize Lesson Loader
 websocket = WebSocket()
@@ -101,7 +101,7 @@ def start_api():
 
   @app.route('/api/getRightPaneWebSocketAddress')
   def get_rightpane_websocket_address():
-    default_address = settings.get('terminals.rightpane.address', default_rightpane_websocket_address)
+    default_address = settings.get('webterminal.rightpane.address', default_rightpane_websocket_address)
     effective_address = default_address
     response_obj = {'address': effective_address}
     return response_obj
@@ -111,7 +111,7 @@ def start_api():
     if args.webterminal_host_address and args.webterminal_port:
         footer_websocket_address = f'{args.webterminal_host_address}:{args.webterminal_port}'
     else:
-        footer_websocket_address = settings.get('terminals.footer.address', default_footer_websocket_address)
+        footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
     if os.name == 'nt':
         footer_http_address = footer_websocket_address.replace('ws', 'http')
         footer_query = f'{footer_http_address}/api/terminals?cols=38&rows=25'
