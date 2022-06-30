@@ -3,7 +3,7 @@ import os
 # Websocket Settings
 default_webterminal_port = 10001
 default_webterminal_host_address = '0.0.0.0'
-if os == 'nt':
+if os.name == 'nt':
   default_websocket_address = f'ws://127.0.0.1:{default_webterminal_port}'
 else:
   default_websocket_address = f'ws://127.0.0.1:{default_webterminal_port}/ws'
