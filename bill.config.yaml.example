@@ -1,49 +1,33 @@
-# The credentials in auth.global are global credentials
-# that are used if lessons are stored in password-protected
-# web locations
-auth:
-  global:
-    username: global-level-username
-    password: global-level-password
-# The websocket addresses used in either
-# the footer or slide-in rightpane
-terminals:
-  default:
-    address: ws://127.0.0.1:5000/
-  footer:
-    address: ws://127.0.0.1:5000/
+# webterminal settings
+webterminal:
+  # specify extra environmental variables to pass to the webterminal shell session
+  env:
+    foo: bar
+  # override the rightpane webterminal websocket address (not yet implemented)
   rightpane:
-    address: ws://127.0.0.1:5000/
+    address: ws://127.0.0.1:10001/ws
+  # override the footer webterminal websocket address
+  footer:
+    address: ws://127.0.0.1:10001/ws    
 # Specify an external configuration 
 # file to be evaluated, with settings merged in
 external_configs:
-  - name: dev
-    uri: http://127.0.0.1:10000/bill.external.config.yaml
-    auth:
-      username: gabbledegak
-      password: gabbldegonk
-# Define the lesson material
+  - name: github
+    uri: https://raw.githubusercontent.com/berttejeda/bert.lessons/main/bill.config.yaml
+# Lesson Topics
 topics:
-  - docker:
-      lessons:
-        - name: Topic 1
-          url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/docker/topic1.md
-        - name: Topic 2
-          url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/docker/topic2.md
-        - name: Topic 3
-          url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/docker/topic3.md
-  - ansible:
-      lessons:
-        - name: Topic 1
-          url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/ansible/topic1.md
-        - name: Topic 2
-          url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/ansible/topic2.md
-        - name: Topic 3
-          url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/ansible/topic3.md
-  - sensitive:
-      lessons:
-        - name: My Sensitive Topic 1
-          url: https://someprivate.website.com/topic1.md
-          # per-lesson credentials are not yet implemented
-          username: someusername
-          password: somepassword
+  sometopic:
+    lessons:
+      - name: Lesson Name 1
+        url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/ansible/topic1.md
+      - name: Lesson Name 2
+        url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/ansible/topic2.md
+      - name: Lesson Name 3
+        url: https://raw.githubusercontent.com/myusername/mylessonrepo/main/ansible/topic3.md
+ sensitive:
+   lessons:
+      - name: My Sensitive Lesson 1
+        url: https://someprivate.website.com/topic1.md
+        # per-lesson credentials are not yet implemented
+        username: someusername
+        password: somepassword        
