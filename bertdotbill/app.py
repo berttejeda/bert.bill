@@ -70,7 +70,7 @@ else:
 def start_webterminal():
   webterminal_host_address = args.webterminal_host_address or default_webterminal_host_address
   webterminal_port = args.webterminal_port or default_webterminal_port
-  WebTerminal(settings).start(host=webterminal_host_address, port=webterminal_port)
+  WebTerminal(settings, args).start(host=webterminal_host_address, port=webterminal_port)
 
 def start_api():
   # Serve React App
@@ -112,12 +112,11 @@ def start_api():
         footer_websocket_address = f'{args.webterminal_host_address}:{args.webterminal_port}'
     else:
         footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
-    if os.name == 'nt':
-        footer_http_address = footer_websocket_address.replace('ws', 'http')
-        footer_query = f'{footer_http_address}/api/terminals?cols=38&rows=25'
-        footer_request = requests.post(footer_query)
-        if footer_request.status_code == 200:
-            footer_websocket_address = f'{footer_websocket_address}/terminals/{footer_request.text}'
+    footer_http_address = footer_websocket_address.replace('ws', 'http')
+    footer_query = f'{footer_http_address}/api/terminals?cols=38&rows=25'
+    footer_request = requests.post(footer_query)
+    if footer_request.status_code == 200:
+        footer_websocket_address = f'{footer_websocket_address}/terminals/{footer_request.text}'
     response_obj = {'address': footer_websocket_address}
     return response_obj
 
