@@ -1,4 +1,18 @@
-from bertdotbill.cli import parse_args
+"""
+Application entrypoint. This module initializes the API and, optionally, forks shell processes
+for the Webterminal UI element.
+
+Components:
+
+-   [`app`][bertdotbill.app.main], the application's main function. Invokes the Flask module
+    to initialize the API and serve up the static assets built from the React [source](src) code. 
+    If the `-aio` flag is specified, the main function will invoke the multiprocessing module
+    to spawn a websocket that handles forking of shell sessions for attachment by the WebTerminal
+    UI element. 
+    The code for this was taken from [spyder-terminal](https://github.com/spyder-ide/spyder-terminal).
+"""
+
+from bertdotbill.args import parse_args
 from bertdotbill.config import AppConfig
 from bertdotbill.defaults import default_app_port, \
 default_app_host_address, \
@@ -73,7 +87,12 @@ def start_webterminal():
   WebTerminal(settings, args).start(host=webterminal_host_address, port=webterminal_port)
 
 def start_api():
-  # Serve React App
+  """API functions.
+  
+  This function defines the API routes and starts the API Process.
+
+  """  
+
   @app.route('/', defaults={'path': ''})
   @app.route('/<path:path>')
   def serve(path=""):
@@ -146,6 +165,8 @@ def start_api():
   logger.info("Stop API")
 
 def main():
+    """The main entrypoint
+    """    
 
     if args.all_in_one:
       import multiprocessing as mp
