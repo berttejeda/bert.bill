@@ -17,8 +17,8 @@ from bertdotbill.config import AppConfig
 from bertdotbill.defaults import default_app_port, \
 default_app_host_address, \
 default_footer_websocket_address, \
-default_webterminal_host_address, \
-default_webterminal_port, \
+default_webterminal_listen_host , \
+default_webterminal_listen_port, \
 default_rightpane_websocket_address
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
@@ -82,9 +82,9 @@ else:
       CORS(app, resources={r"*": {"origins": "*"}})
 
 def start_webterminal():
-  webterminal_host_address = args.webterminal_host_address or default_webterminal_host_address
-  webterminal_port = args.webterminal_port or default_webterminal_port
-  WebTerminal(settings, args).start(host=webterminal_host_address, port=webterminal_port)
+  webterminal_listen_host  = args.webterminal_listen_host  or default_webterminal_listen_host 
+  webterminal_listen_port = args.webterminal_listen_port or default_webterminal_listen_port
+  WebTerminal(settings, args).start(host=webterminal_listen_host , port=webterminal_listen_port)
 
 def start_api():
   """API functions.
@@ -127,8 +127,8 @@ def start_api():
 
   @app.route('/api/getFooterWebSocketAddress')
   def get_footer_websocket_address():
-    if args.webterminal_host_address and args.webterminal_port:
-        footer_websocket_address = f'{args.webterminal_host_address}:{args.webterminal_port}'
+    if args.webterminal_host:
+        footer_websocket_address = args.webterminal_host
     else:
         footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
     footer_http_address = footer_websocket_address.replace('ws', 'http')
