@@ -168,7 +168,9 @@ def main():
     """The main entrypoint
     """    
 
-    if args.all_in_one:
+    if args.webterminal_only:
+      start_webterminal()
+    elif args.all_in_one:
       import multiprocessing as mp
       if hasattr(os, 'getppid'):  # only available on Unix
           logger.info(f'parent process: {os.getppid()}')
