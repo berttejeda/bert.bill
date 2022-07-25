@@ -6,9 +6,8 @@ default_webterminal_listen_host  = '0.0.0.0'
 default_websocket_address = f'ws://127.0.0.1:{default_webterminal_listen_port}'
 default_footer_websocket_address = default_websocket_address
 default_rightpane_websocket_address = default_websocket_address
-default_webterminal_shell_name = 'bash'
-default_webterminal_shell_path = '/bin/bash'
-default_webterminal_shell_command = ('-i', )
+default_webterminal_shell = '/bin/bash'
+default_webterminal_shell_command = '-l'
 default_webterminal_env = {
   "SHELL": 'bash',
   "TERM": 'xterm',

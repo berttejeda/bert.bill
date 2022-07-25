@@ -18,6 +18,7 @@ def parse_args(**kwargs):
   parser.add_argument('--webterminal-listen-port', '-wlp', help="Override default listening port for the webterminal socket")
   parser.add_argument('--webterminal-host', '-wh', help="Override the webterminal socket address to which the UI initially connects")
   parser.add_argument('--webterminal-shell', '-wS', help="Override default shell for the webterminal session")
+  parser.add_argument('--webterminal-shell-command', '-wSc', help="Override default shell command for the webterminal session")
   parser.add_argument('--open-browser-delay', '-bd', help="Override default time in seconds to delay when opening the system's web browser", default=default_open_browser_delay)
   parser.add_argument('--logfile-write-mode', '-w', default='w', choices=['a', 'w'], help="File mode when writing to log file, 'a' to append, 'w' to overwrite")
   parser.add_argument('--config-file-templatized', '-fT', action='store_true', default=True, help="Render configuration via jinja2 templating")

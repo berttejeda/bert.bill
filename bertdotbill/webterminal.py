@@ -1,7 +1,8 @@
 import tornado.web
 import tornado.ioloop
 from bertdotbill.defaults import \
-default_webterminal_shell_name
+default_webterminal_shell, \
+default_webterminal_shell_command
 from bertdotbill.spyder_terminal.server.common import create_app
 
 from bertdotbill.logger import Logger
@@ -15,13 +16,15 @@ class WebTerminal:
 
     def start(self, host, port):
         clr = 'cls'
-        webterminal_shell_name = self.cli_args.webterminal_shell or self.settings.get('webterminal.shell.name', default_webterminal_shell_name)
+        webterminal_shell = self.cli_args.webterminal_shell or self.settings.get('webterminal.shell', default_webterminal_shell)
+        webterminal_shell_command = self.cli_args.webterminal_shell_command or self.settings.get('webterminal.command', default_webterminal_shell_command)
         logger.info(f'Server is now at: {host}:{port}')
-        logger.info(f'Shell: {webterminal_shell_name}')
+        logger.info(f'Shell: {webterminal_shell}')
         debug = self.cli_args.debug or self.settings.get('webterminal.debug')
         serve_traceback = self.settings.get('webterminal.serve_traceback')
         autoreload = self.settings.get('webterminal.autoreload')
-        application = create_app('/bin/bash',
+        application = create_app(webterminal_shell, 
+                                 webterminal_shell_command,
                                  debug=debug,
                                  serve_traceback=serve_traceback,
                                  autoreload=autoreload)

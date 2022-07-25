@@ -7,7 +7,7 @@ import bertdotbill.spyder_terminal.server.routes as routes
 from bertdotbill.spyder_terminal.server.logic.term_manager import TermManager
 
 
-def create_app(shell, close_future=None, **kwargs):
+def create_app(shell, shell_command, close_future=None, **kwargs):
     """Create and return a tornado Web Application instance."""
     debug = kwargs.get('debug')
     serve_traceback = kwargs.get('serve_traceback')
@@ -18,5 +18,5 @@ def create_app(shell, close_future=None, **kwargs):
                                           debug=debug,
                                           serve_traceback=serve_traceback,
                                           autoreload=autoreload, **settings)
-    application.term_manager = TermManager([shell])
+    application.term_manager = TermManager([shell, shell_command])
     return application
