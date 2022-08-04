@@ -47,7 +47,6 @@ complete with a web terminal for interactive practice.
 
 - The UI is written in [ReactJS](https://reactjs.org/)
 - The API is using [Flask](https://flask.palletsprojects.com/en/2.1.x/) 
-- Markdown rendering rendering the optimized HTML assets.
 
 <a name="whats-it-look-like"></a>    
 ## What's it look like?
@@ -124,19 +123,21 @@ Usage information can be obtained by invoking the executable with the `--help` f
 The help output should be similar to:
 
 ```
-usage: app.py [-h] [--username USERNAME] [--password PASSWORD]
+usage: bill   [-h] [--username USERNAME] [--password PASSWORD]
               [--lesson-url LESSON_URL]
               [--static-assets-folder STATIC_ASSETS_FOLDER]
               [--config-file CONFIG_FILE] [--cors-origin CORS_ORIGIN]
               [--logfile-path LOGFILE_PATH] [--host-address HOST_ADDRESS]
               [--port PORT]
-              [--webterminal-host-address WEBTERMINAL_HOST_ADDRESS]
-              [--webterminal-port WEBTERMINAL_PORT]
+              [--webterminal-listen-host WEBTERMINAL_LISTEN_HOST]
+              [--webterminal-listen-port WEBTERMINAL_LISTEN_PORT]
+              [--webterminal-host WEBTERMINAL_HOST]
+              [--webterminal-shell WEBTERMINAL_SHELL]
+              [--webterminal-shell-command WEBTERMINAL_SHELL_COMMAND]
               [--open-browser-delay OPEN_BROWSER_DELAY]
               [--logfile-write-mode {a,w}] [--config-file-templatized]
-              [--api-only] [--all-in-one] [--debug] [--verify-tls]
-              [--no-render-markdown]
-              [run]
+              [--api-only] [--webterminal-only] [--all-in-one] [--debug]
+              [--no-verify-tls] [--no-render-markdown]
 
 Bert's Interactive Lesson Loader (BILL)
 
@@ -162,12 +163,20 @@ optional arguments:
   --host-address HOST_ADDRESS, -l HOST_ADDRESS
                         Override default host address
   --port PORT, -p PORT  Override default listening port
-  --webterminal-host-address WEBTERMINAL_HOST_ADDRESS, -wh WEBTERMINAL_HOST_ADDRESS
+  --webterminal-listen-host WEBTERMINAL_LISTEN_HOST, -wlh WEBTERMINAL_LISTEN_HOST
                         Override default listening host address for the
                         webterminal socket
-  --webterminal-port WEBTERMINAL_PORT, -wp WEBTERMINAL_PORT
+  --webterminal-listen-port WEBTERMINAL_LISTEN_PORT, -wlp WEBTERMINAL_LISTEN_PORT
                         Override default listening port for the webterminal
                         socket
+  --webterminal-host WEBTERMINAL_HOST, -wh WEBTERMINAL_HOST
+                        Override the webterminal socket address to which the
+                        UI initially connects
+  --webterminal-shell WEBTERMINAL_SHELL, -wS WEBTERMINAL_SHELL
+                        Override default shell for the webterminal session
+  --webterminal-shell-command WEBTERMINAL_SHELL_COMMAND, -wSc WEBTERMINAL_SHELL_COMMAND
+                        Override default shell command for the webterminal
+                        session
   --open-browser-delay OPEN_BROWSER_DELAY, -bd OPEN_BROWSER_DELAY
                         Override default time in seconds to delay when opening
                         the system's web browser
@@ -177,9 +186,12 @@ optional arguments:
   --config-file-templatized, -fT
                         Render configuration via jinja2 templating
   --api-only            Don't serve static assets, only start API
+  --webterminal-only    Don't serve static assets or start API, only invoke
+                        Webterminal Websocket
   --all-in-one, -aio    Run the shell websocket process alongside app
   --debug
-  --verify-tls          Verify SSL cert when downloading web content
+  --no-verify-tls, -notls
+                        Verify SSL cert when downloading web content
   --no-render-markdown, -nomarkdown
 ```
 
@@ -277,8 +289,7 @@ Every lesson rendered through the app includes a web-based terminal
 emulator component that allows for practicing the lesson material.
 
 These web terminals are embedded in the user interface, 
-available at its footer and as a slide-in from the right 
-(click Utils to reveal).
+available at its footer.
 
 As mentioned before, the underlying technology for these web 
 terminals is [xterm.js](https://github.com/xtermjs/xterm.js/).
@@ -290,12 +301,12 @@ will attempt to connect to a local instance of the websocket via _http://127.0.0
 
 You can get this websocket running either by:
 
-- Running the `bill` or `bertdotbill/app.py` scripts with the `-aio` flag passed in<br />
+- Running the `bill` command (if installed via pip) or by running `python bertdotbill/app.py` with the `-aio` flag passed in<br />
   Doing so will launch a local websocket that forwards keystrokes to a bash process on your system
-- Running the pre-built docker image: `docker run --rm -it --name aiohttp -p 10000:10000 berttejeda/aiohttp-websocket-bash`
+- Running the pre-built docker image: `docker run -it --name webterminal --rm -p 10001:10001 berttejeda/bill-webterminal`
 
 Either of the commands above will start the websocket 
-and bash process on the target platform on port 10001 by default.
+and bash process on localhost:10001.
 
 Feel free to adjust either approach to your need.
 
