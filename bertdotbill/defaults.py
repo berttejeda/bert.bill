@@ -1,5 +1,8 @@
 import os
 
+# SSL Requests
+default_verify_tls = True
+
 # Websocket Settings
 default_webterminal_listen_port = 10001
 default_webterminal_listen_host  = '0.0.0.0'

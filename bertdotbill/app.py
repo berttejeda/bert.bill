@@ -19,7 +19,8 @@ default_app_host_address, \
 default_footer_websocket_address, \
 default_webterminal_listen_host , \
 default_webterminal_listen_port, \
-default_rightpane_websocket_address
+default_rightpane_websocket_address, \
+default_verify_tls
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
 from bertdotbill.topics import Topics
@@ -44,9 +45,12 @@ args = parse_args()
 logger_obj = Logger(logfile_path=args.logfile_path, logfile_write_mode=args.logfile_write_mode)
 logger = logger_obj.init_logger('app')
 
+verify_tls = args.no_verify_tls or default_verify_tls
+
+print(verify_tls)
 # Initialize Config Reader
 settings = AppConfig().initialize(
-  args=vars(args), verify_tls=args.verify_tls
+  args=vars(args), verify_tls=verify_tls
 )
 
 if args.api_only:
@@ -63,7 +67,10 @@ topics = Topics(
 # Initialize Lesson Loader
 lessons = Lessons(
     settings=settings,
-    args=args, no_render_markdown=args.no_render_markdown)
+    args=args, 
+    no_render_markdown=args.no_render_markdown,
+    verify_tls=verify_tls
+    )
 
 # Initialize Lesson Loader
 websocket = WebSocket()

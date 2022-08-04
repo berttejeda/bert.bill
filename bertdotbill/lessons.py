@@ -13,7 +13,9 @@ class Lessons:
   def __init__(self, args, settings, **kwargs):
     self.args = args
     self.settings = settings
-    self.webadapter = WebAdapter(fail_on_errors=True, verify_tls=self.args.verify_tls)
+    verify_tls = kwargs.get('verify_tls')
+    fail_on_errors = kwargs.get('fail_on_errors', True)
+    self.webadapter = WebAdapter(fail_on_errors=fail_on_errors, verify_tls=verify_tls)
     self.global_username = os.environ.get(
       'GLOBAL_USERNAME') or self.args.username  # or self.config_util.get(self.settings,'auth.global.username')
     self.global_password = os.environ.get(

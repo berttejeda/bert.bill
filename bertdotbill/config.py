@@ -15,7 +15,7 @@ class AppConfig():
 
     logger.info("Initializing config")
     args = kwargs.get('args', {})
-    verify_tls = kwargs.get('verify_tls', False)
+    verify_tls = kwargs.get('verify_tls')
     # Initialize App Config
     initial_data = {
     'environment': os.environ

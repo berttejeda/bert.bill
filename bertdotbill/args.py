@@ -26,7 +26,7 @@ def parse_args(**kwargs):
   parser.add_argument('--webterminal-only', action='store_true', help="Don't serve static assets or start API, only invoke Webterminal Websocket")
   parser.add_argument('--all-in-one', '-aio', action='store_true', help="Run the shell websocket process alongside app")
   parser.add_argument('--debug', action='store_true')
-  parser.add_argument('--verify-tls', action='store_true', help='Verify SSL cert when downloading web content', default=False)
+  parser.add_argument('--no-verify-tls', '-notls',action='store_true', help='Verify SSL cert when downloading web content')
   parser.add_argument('--no-render-markdown', '-nomarkdown', action='store_true')
   parser.add_argument('run', nargs="?", default=None) # this is just a stub for running via `flask run`
   return parser.parse_args()
