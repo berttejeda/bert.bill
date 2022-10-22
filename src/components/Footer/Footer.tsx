@@ -113,6 +113,11 @@ export default function Footer(lesson, {children}) {
             <InputGroup.Text id="wsUrl"></InputGroup.Text>
             <button onClick={() => handleSocketChange(input)}>Connect</button>
           </InputGroup>
+          { (wsUrl) ? <div></div> : <div>Couldn't connect to Webterminal agent<br />
+            You can start one locally via docker with:<br />
+            <code>docker run -it --name webterminal --rm -p 10001:10001 berttejeda/bill-webterminal</code><br />
+            Read more at <a href="https://github.com/berttejeda/bert.bill.webterminal">https://github.com/berttejeda/bert.bill.webterminal</a></div>
+          }
         </header>
         { (wsUrl && lesson) ?
           <div style={xtermAdjustment}>
