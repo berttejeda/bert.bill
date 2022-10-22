@@ -68,10 +68,9 @@ The entries are generated dynamically as defined in the app's [configuration fil
 * Web-based terminals via [xtermjs](https://github.com/xtermjs/xterm.js/) component<br />
   See section on [WebTerminal](#WebTerminal)
 * Local Webterminal websocket is also available
-  * On Windows, via [spyder-terminal](https://github.com/spyder-ide/spyder-terminal) component
-  * On Posix-compliant systems (e.g. OSX, Linux), via [aiohttp](https://github.com/aio-libs/aiohttp)
-  * As such, you can practice the lesson material with your own OS/system
-    * Simply click on a command, and it will be executed in the underlying shell via web terminal!
+  * Utilizes [spyder-terminal](https://github.com/spyder-ide/spyder-terminal) component
+  * You can practice the lesson material with your own OS/system
+    * Simply **click** on a command, and it will be executed in the underlying shell via web terminal!
     * Default shell is bash (for now)
 
 <a name="quick-start"></a>
@@ -89,6 +88,9 @@ You can install the app in any of the following ways:
 ```
 git clone https://github.com/berttejeda/bert.bill.git
 cd bert.bill
+nvm install
+npm install -g parcel yarn
+yarn install
 yarn compile:ui:dev
 pip install .
 ```
@@ -296,12 +298,12 @@ terminals is [xterm.js](https://github.com/xtermjs/xterm.js/).
 
 As such, the xterm.js component requires a websocket to a bash process.
 
-By [default](bertdotbill/defaults.py), the bert.bill desktop app 
+By [default](bertdotbill/defaults.py), the bert.bill web app 
 will attempt to connect to a local instance of the websocket via _http://127.0.0.1:10000/_.
 
 You can get this websocket running either by:
 
-- Running the `bill` command (if installed via pip) or by running `python bertdotbill/app.py` with the `-aio` flag passed in<br />
+- Install bertdotbill with `pip install bertdotbill` and running `bill -aio` or by installing all requirements and running `python bertdotbill/app.py -aio`<br />
   Doing so will launch a local websocket that forwards keystrokes to a bash process on your system
 - Running the pre-built docker image: `docker run -it --name webterminal --rm -p 10001:10001 berttejeda/bill-webterminal`
 
@@ -310,6 +312,5 @@ and bash process on localhost:10001.
 
 Feel free to adjust either approach to your need.
 
-# Appendix
-
+Read more [bert.bill.webterminal github project](https://github.com/berttejeda/bert.bill.webterminal)
 
