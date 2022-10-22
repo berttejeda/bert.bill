@@ -13,7 +13,7 @@ webterminal:
 # file to be evaluated, with settings merged in
 external_configs:
   - name: github
-    uri: https://raw.githubusercontent.com/berttejeda/bert.lessons/main/bill.config.yaml
+    uri: https://raw.githubusercontent.com/berttejeda/bert.lessons/main/lessons.yaml
 # Lesson Topics
 topics:
   sometopic:
