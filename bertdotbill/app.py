@@ -85,7 +85,7 @@ else:
     if args.cors_origin:
       CORS(app, resources={r"*": {"origins": args.cors_origin}})
     else:
-      logger.warn('CORS Policy effectively disabled, as oo Origin Pattern specified')
+      logger.warning('CORS Policy effectively disabled, as no Origin Pattern specified')
       CORS(app, resources={r"*": {"origins": "*"}})
 
 def start_webterminal():
