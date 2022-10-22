@@ -203,10 +203,12 @@ optional arguments:
 * Install and configure prerequisites:
   * Python 3.7+
   * Nodejs (tested with version 16.5.0)
-* Install yarn: `npm install yarn`
+* Install this project's node requirement: `nvm install`<br />
+  Note that this command implicitly reads the local [.nvmrc](.nvmrc)
+* Install yarn & parcel: `npm install -g yarn parcel`
 * Install modules: `yarn install`
 * Install python prerequisites: `pip install -r requirements.txt`
-* Build: `yarn clean && yarn compile:ui:dev`
+* Build UI: `yarn clean && yarn compile:ui:dev`
 * Launch the development instance of the desktop app: `yarn start:dev`<br />
   Under the hood, this recompiles the HTML and launches [bertdotbill/app.py](bertdotbill/app.py)
 
