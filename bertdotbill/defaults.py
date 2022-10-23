@@ -39,8 +39,8 @@ default_settings = {
   },
   "external_configs": [
     {
-      "name": "someconfig",
-      "uri": "https://raw.githubusercontent.com/someuser/somerepo/main/bill.config.yaml"
+      "name": "bert.lessons",
+      "uri": "https://raw.githubusercontent.com/berttejeda/bert.lessons/main/lessons.yaml"
     }
   ]
 }
