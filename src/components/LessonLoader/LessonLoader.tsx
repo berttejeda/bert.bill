@@ -35,6 +35,8 @@ export default function LessonLoader(props) {
   // For interaction between TopNavBar and CollapsibleSection
   const [isCollapsed, setIsCollapsed] = useState(props.collapsed);
 
+  const [apiPing, setApiPing] = useState(null);
+
   const tocVisible = {
     visibility: "visible",
   };
@@ -74,7 +76,19 @@ export default function LessonLoader(props) {
           collapseDepth: 0,
       });  
 
-  }, [lesson])  
+  }, [lesson])
+
+  useEffect(() => {
+
+      try {
+        fetch(process.env.REACT_APP_API_URI_PING).then(res => res.json()).then(data => {
+          setApiPing(data.message);
+        });
+      } catch (e) {
+        console.log(e)
+      }
+
+  }, []);    
 
   try {
     console.log('Loading lesson view')
@@ -82,7 +96,7 @@ export default function LessonLoader(props) {
       <div className='lesson-container'>
         <div className='lesson-container-title'>
           <Clippy/>
-          <TopNavBar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} loadLesson={loadLesson} />
+          <TopNavBar apiPing={apiPing} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} loadLesson={loadLesson} />
           <CollapsibleSection style={style} isCollapsed={isCollapsed}>
             <em>To render a lesson, enter the web address for <br />
             its lesson definition and click the Load button:</em>
@@ -96,6 +110,14 @@ export default function LessonLoader(props) {
         }
         {/*The incoming lesson content is a base64-encoded string*/}
         <main className='lesson-content-container' dangerouslySetInnerHTML={{ __html: Buffer.from(lesson, 'base64').toString('ascii'); }} />
+        {apiPing ? null : 
+
+          <div>Couldn't ping API at {process.env.REACT_APP_API_URI_PING}<br />
+          You can start your api locally via docker with:<br />
+          <code>docker run -it --rm --name bill --network=host berttejeda/bill --api-only</code><br />
+          Make sure to refresh this page once your API is running.
+          Read more at <a href="https://github.com/berttejeda/bert.bill">https://github.com/berttejeda/bert.bill</a></div>
+        }
         <Footer lesson={lesson} />
       </div>
     )

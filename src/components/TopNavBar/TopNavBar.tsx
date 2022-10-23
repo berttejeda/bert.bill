@@ -23,7 +23,7 @@ import {
   NavDropdown
 } from "react-bootstrap";
 
-export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
+export default function TopNavBar({ apiPing, isCollapsed, setIsCollapsed, loadLesson }) {
 
   // For the 'About' modal
   const [showAbout, setShowAbout] = React.useState(false);
@@ -53,7 +53,7 @@ export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
     Close
     </Button>
     </Modal.Footer>
-    </Modal>
+  </Modal>
 
   // For tracking vertical scrolling
   const [scrolled,setScrolled]=useState(false);
@@ -65,8 +65,6 @@ export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
   // For receiving the list of os commands
   // from the python process
   const [osCommands, setCommands] = useState('[]')
-
-  const [ping, setPing] = useState(null);
 
   const timeStyle = {
     position: "fixed",
@@ -129,18 +127,6 @@ export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
 
   }
 
-   useEffect(() => {
-
-      try {
-        fetch(process.env.REACT_APP_API_URI_PING).then(res => res.json()).then(data => {
-          setPing(data.message);
-        });
-      } catch (e) {
-        console.log(e)
-      }
-
-  }, []);  
-
   useEffect(() => {
 
     fetch(process.env.REACT_APP_API_URI_GET_TOPICS).then(res => res.json()).then(data => {
@@ -167,7 +153,7 @@ export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
   <div className='topnavbar-container'>  
   <div className={navbarClasses.join(" ")} >
     <Navbar bg="light" expand="lg">
-      { (ping) ?
+      { (apiPing) ?
       <Navbar.Brand href="#home"><img className='logo' src={logo_api_active} alt="bert.bill"/></Navbar.Brand>
       :
       <Navbar.Brand href="#home"><img className='logo' src={logo_api_inactive} alt="bert.bill"/></Navbar.Brand>
@@ -217,7 +203,7 @@ export default function TopNavBar({ isCollapsed, setIsCollapsed, loadLesson }) {
       </Navbar.Collapse>
     </Navbar>
   </div>
-  </div>
 
+  </div>
   );
 };
