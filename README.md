@@ -90,7 +90,7 @@ git clone https://github.com/berttejeda/bert.bill.git
 cd bert.bill
 nvm install
 npm install -g parcel yarn
-yarn install
+yarn install --frozen-lockfile
 yarn compile:ui:dev
 pip install .
 ```
@@ -201,29 +201,31 @@ optional arguments:
 ```
 
 <a name="building-the-app"></a>
-# Building the development instance of the app
+# Starting the development instance of the app
 
-* Install and configure prerequisites:
-  * Python 3.7+
-  * Nodejs (tested with version 16.5.0)
-* Install this project's node requirement: `nvm install`<br />
+* Install Python 3.7+
+* Install this project's required version of [nodejs](https://nodejs.org/en/) (v16.5.0): `nvm install`<br />
   Note that this command implicitly reads the local [.nvmrc](.nvmrc)
 * Install yarn & parcel: `npm install -g yarn parcel`
-* Install modules: `yarn install`
-* Install python prerequisites: `pip install -r requirements.txt`
-* Build UI: `yarn clean && yarn compile:ui:dev`
-* Launch the development instance of the desktop app: `yarn start:dev`<br />
-  Under the hood, this recompiles the HTML and launches [bertdotbill/app.py](bertdotbill/app.py)
+* Install node modules: `yarn install --frozen-lockfile`
+* Install python prerequisites: `pip3 install -e .`
+* Launch the development instance of the UI: `yarn start:dev:ui`<br />
+* Launch the api and local webterminal process: `yarn start:api`<br />
+  Under the hood, this launches `python bertdotbill/app.py --debug --api-only -aio`, 
+  see [package.json](package.json)
 
 [Back to Top](#top)
 <a name="developing-the-app"></a>
 # Developing the app
 
-If you want to make changes to the UI, you'll need to launch the 
-web instance with `yarn start:dev:parcel`.
+Starting the development instance of the UI will cause it to reload
+whenever you make changes to any of the UI 
+files under the [src](src) folder.
 
-Once parcel begins serving up the HTML assets, you 
-can make changes to UI components and they will re-render on-the-fly.
+This functionality helps increase UI development velocity.
+
+I have not yet implemented similar functionality for the API files under [bertdotbill](bertdotbill),
+so you'll have to kill and reload the API whenever you make changes.
 
 <a name="configuration-file"></a>
 # Configuration File
@@ -239,7 +241,7 @@ the web app will attempt to find the config file in the
 following locations:
 
 - Under ~/lessons.yaml
-- Adjacent to the app, i.e. in the same folder as the app's script
+- Adjacent to the app, i.e. ./lessons.yaml
 - Under ~/.bill/lessons.yaml
 - Under /etc/lessons.yaml
 
@@ -267,26 +269,28 @@ You can define a lesson catalog in the
 [configuration file](lessons.yaml.example).
 
 If these files are stored in a password-protected web location, 
-you'll need to specify credentials in the auth.global section 
-of the config file.
+you'll need to specify credentials via the cli with `--username` and `--password`<br />
+or via environmental variables `GLOBAL_USERNAME` and `GLOBAL_PASSWORD`
 
-Per-lesson credentials are not yet implemented, but will 
-be in a future version.
+## TODO 
+
+Implement per-lesson credentials
 
 <a name="jinja-templating"></a>
 ## Jinja Templating
 
 To add to the templating goodies provided by the Jinja library,
-I've exposed the OS Environment via the _environment_ key of 
-the _sessions_ object.
+I've exposed the OS Environment via the _environment_ key of a
+special variable named _session_.
 
-This means you should be able to reference any OS-level environment 
-variable in your lesson content, e.g. 
+This means you should be able to dynamically load any OS-level environment 
+variable into your lesson material, e.g. 
 
 ```markdown
 # Overview
 
-Hello {{ session['environment']['USERNAME'] }}, welcome to Lesson 1
+{% set USERNAME = session['environment'].get('USER') or session['environment'].get('USERNAME')  %}
+Hello {{ USERNAME }}, welcome to Lesson 1
 ```
 
 <a name="webterminal"></a>
