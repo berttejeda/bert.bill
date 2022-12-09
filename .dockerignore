@@ -12,6 +12,9 @@ __pycache__
 .pnp.js
 .spec
 bertdotbill.egg-info
+docker-compose.yml
+Dockerfile
+README.md
 build
 coverage
 dist

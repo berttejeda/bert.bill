@@ -7,11 +7,14 @@ logger = Logger().init_logger(__name__)
 is_frozen = getattr(sys, 'frozen', False)
 if is_frozen:
   my_file_name = os.path.basename(sys.executable)
-  project_root = os.path.dirname(os.path.abspath(sys.executable))  
+  # If the MEIPASS attribute is available in the sys module, 
+  # this indicates a single-file executable created by pyinstaller
+  # If MEIPASS attribute is not detected, fallback to the path of the frozen executable
+  sys_executable_path = os.path.dirname(os.path.abspath(sys.executable))
+  project_root = getattr(sys, '_MEIPASS', sys_executable_path)
 else:
   my_file_name = __file__
   project_root = os.path.dirname(my_file_name)
-
 
 def do_if_frozen():
 

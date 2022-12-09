@@ -23,7 +23,7 @@ app_name = "Bert's Interactive Lesson Loader (BILL)"
 gui_dirname = 'bill.gui'
 default_app_port = 10000
 default_open_browser_delay = 1.25
-default_config_file_name = 'bill.config.yaml'
+default_config_file_name = 'lessons.yaml'
 default_app_host_address = '0.0.0.0'
 default_settings = {
   "terminals": {

@@ -1,0 +1,24 @@
+version: "3.5"
+
+services:
+
+  bill:
+    image: berttejeda/bill
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: bill
+    command: 
+      - -aio
+    hostname: bert.bill
+    ports:
+      - 10000:10000
+      - 10001:10001
+    tty: true 
+    environment:
+      - TZ="US/Eastern"
+
+networks: 
+  default: 
+    name: bill      
