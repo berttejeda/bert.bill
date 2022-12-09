@@ -1,6 +1,9 @@
-FROM node:18.0.0
+FROM node:18.0.0 as build
 
-USER root
+SHELL ["/bin/bash", "-exo", "pipefail", "-c"] 
+
+ARG SSL_VERIFY=on
+ENV SSL_VERIFY=$SSL_VERIFY
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
@@ -14,58 +17,55 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-
-SHELL ["/bin/bash", "-exo", "pipefail", "-c"] 
-
-WORKDIR /workspace
-
-COPY entrypoint.sh /usr/local/bin
-
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-ARG SSL_VERIFY=on
-ENV SSL_VERIFY=$SSL_VERIFY
-
 RUN if [[ "$SSL_VERIFY" == "off" ]]; then \
       npm config set strict-ssl false -g; \
+      yarn config set "strict-ssl" false; \
     fi
 
-RUN npm install --location=global nodemon
+RUN npm install -g nodemon
 
-
-ENV NODE_HOME=/home/node
+# ENV NODE_HOME=/home/node
 
 WORKDIR /setup
 
 ADD . .
 
-RUN if [[ "$SSL_VERIFY" == "off" ]]; then \
-      yarn config set "strict-ssl" false; \
-    fi
+RUN yarn install --frozen lockfile 
 
-RUN yarn install && yarn build
-
-RUN rm -rf node_modules
+RUN yarn build
 
 RUN if [[ "$SSL_VERIFY" == "off" ]]; then \
       pip3 install --trusted-host=pypi.org --trusted-host=github.com \
       --trusted-host=files.pythonhosted.org --upgrade pip; \
       pip3 install --trusted-host=pypi.org --trusted-host=github.com \
-      --trusted-host=files.pythonhosted.org --upgrade setuptools; \      
+      --trusted-host=files.pythonhosted.org --upgrade setuptools 'pyinstaller>=5.7.0<6.0.0'; \      
       pip3 install --trusted-host=pypi.org --trusted-host=github.com \
       --trusted-host=files.pythonhosted.org --upgrade .; \
     else \
       python3 -m pip install --upgrade pip; \
-      python3 -m pip install --upgrade setuptools; \
+      python3 -m pip install --upgrade setuptools 'pyinstaller>=5.7.0<6.0.0'; \
       python3 -m pip install .; \
     fi
 
-WORKDIR /home/node
+RUN mv lessons.yaml.example lessons.yaml && pyinstaller -n bill \
+--distpath dist \
+--add-data bill.gui:bill.gui \
+--add-data lessons.yaml:lessons.yaml \
+$(sed -n '/^install_requires/,/^$/p' setup.cfg | sed  -e 's/ //g' -e '1d;$d' -e 's/>.*//g' -e 's/=.*//g' -e 's/^\(.*\)/--hidden-import "\1"/g') \
+--onedir bertdotbill/app.py
 
-RUN rm -rf /setup
+RUN pip install -t dist/bill .
 
-USER node
+FROM python:3.9-slim
 
-ENV PATH=$NODE_HOME/bin:$NODE_HOME/.local/bin:$PATH
+COPY --from=build /setup/dist/bill /app
+
+COPY entrypoint.sh /usr/local/bin
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+WORKDIR /app
+
+# ENV PATH=$NODE_HOME/bin:$NODE_HOME/.local/bin:$PATH
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
