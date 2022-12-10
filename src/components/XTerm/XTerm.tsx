@@ -17,6 +17,9 @@ let curFont;
 let fontSize;
 let reason;
 
+let myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
 export default function XTerm({
   ws,
   wsUrl,
@@ -58,7 +61,7 @@ export default function XTerm({
     elements.forEach(element => {
         element.addEventListener('click', handleCodeClick);
     });
-  }  
+  }
 
   function setFont(terminalObj, font) {
       let fonts = "monospace";
@@ -115,6 +118,20 @@ export default function XTerm({
       fitAddon.fit();
       xterm.focus();
       window.term = xterm
+
+      let cols = xterm.cols;
+      let rows = xterm.rows;
+      let terminalPID = wsUrl.split("/").at(-1)
+
+      let data = {'rows': rows, 'cols': cols}
+      let requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+      };
+      fetch(`/api/terminals/${terminalPID}/size?cols=${cols}&rows=${rows}`, requestOptions)
+      .then(response => console.log('Successfully resized terminal!'))
+      
       fontSize = xterm.getOption('fontSize');
 
       if (readyStateText != "Open") {
@@ -138,7 +155,6 @@ export default function XTerm({
 
     }
   }, [socket, lesson]);
-
 
   return (
     <div

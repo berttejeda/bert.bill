@@ -27,7 +27,7 @@ from bertdotbill.topics import Topics
 from bertdotbill.lessons import Lessons
 from bertdotbill.webterminal import WebTerminal
 from bertdotbill.websocket import WebSocket
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, make_response, request, send_from_directory
 from flask_cors import CORS
 import os
 import requests
@@ -47,7 +47,6 @@ logger = logger_obj.init_logger('app')
 
 verify_tls = args.no_verify_tls or default_verify_tls
 
-print(verify_tls)
 # Initialize Config Reader
 settings = AppConfig().initialize(
   args=vars(args), verify_tls=verify_tls
@@ -132,6 +131,25 @@ def start_api():
     response_obj = {'address': effective_address}
     return response_obj
 
+  @app.route('/api/terminals/<terminalPID>/size', methods = ['POST'])
+  def resize_terminal(**kwargs):
+    if args.webterminal_host:
+        footer_websocket_address = args.webterminal_host
+    else:
+        footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
+    footer_http_address = footer_websocket_address.replace('ws', 'http')
+    cols = request.json.get('cols')
+    rows = request.json.get('rows')
+    data = {'rows': rows, 'cols': cols}
+    terminal_pid = kwargs.get('terminalPID')
+    resize_url = f'{footer_http_address}/api/terminals/{terminal_pid}/size?cols={cols}&rows={rows}'
+    resize_request = requests.post(resize_url, json=data)
+    if resize_request.status_code == 200:
+      return {}
+    else:
+      resp = make_response("Failed to resize terminal", 500)
+      return resp      
+
   @app.route('/api/getFooterWebSocketAddress')
   def get_footer_websocket_address():
     if args.webterminal_host:
@@ -139,10 +157,11 @@ def start_api():
     else:
         footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
     footer_http_address = footer_websocket_address.replace('ws', 'http')
-    footer_query = f'{footer_http_address}/api/terminals?cols=38&rows=25'
+    footer_query = f'{footer_http_address}/api/terminals?cols=256&rows=50'
     footer_request = requests.post(footer_query)
     if footer_request.status_code == 200:
         footer_websocket_address = f'{footer_websocket_address}/terminals/{footer_request.text}'
+    logger.debug(f'Footer websocket address: {footer_websocket_address}')
     response_obj = {'address': footer_websocket_address}
     return response_obj
 
