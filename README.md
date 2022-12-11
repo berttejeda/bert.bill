@@ -24,7 +24,6 @@
     - [Jinja Templating](#jinja-templating)
 - [WebTerminal](#webterminal)
 - [Appendix](#appendix)
-    - [OS Commands](#os-commands)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -323,3 +322,4 @@ Feel free to adjust either approach to your need.
 
 Read more [bert.bill.webterminal github project](https://github.com/berttejeda/bert.bill.webterminal)
 
+# Appendix
