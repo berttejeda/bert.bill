@@ -183,6 +183,7 @@ export default function TopNavBar({ apiPing, isCollapsed, setIsCollapsed, loadLe
               </NavDropdown.Item>
             </NavDropdown>
           </NavDropdown>
+
         </Nav>
         {/*<input type="text" onKeyPress={event => event.key === "Enter" && handleSubmit(this.text)} />*/}
         {/*<input type="text" onKeyPress={edValueKeyPress()} onKeyUp={edValueKeyPress()} />*/}
@@ -202,6 +203,7 @@ export default function TopNavBar({ apiPing, isCollapsed, setIsCollapsed, loadLe
         </Form>*/}
       </Navbar.Collapse>
     </Navbar>
+    <div className='app-version'>{ `v${process.env.REACT_APP_VERSION}` }</div>
   </div>
 
   </div>
