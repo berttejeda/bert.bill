@@ -24,6 +24,7 @@
     - [Jinja Templating](#jinja-templating)
 - [WebTerminal](#webterminal)
 - [Appendix](#appendix)
+    - [Github Pages](#github-pages)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -324,3 +325,13 @@ Read more [bert.bill.webterminal github project](https://github.com/berttejeda/b
 
 <a name="appendix"></a>
 # Appendix
+
+<a name="github-pages"></a>
+## Github Pages
+
+If you want to publish the assets from your own fork of this repo:
+
+1. Fork this repo
+1. Configure [Github Pages](https://docs.github.com/en/pages/quickstart) 
+1. Run `yarn install` to initialize the project requirements
+1. Run `yarn deploy` to publish the static assets to the `gh-pages` branch
