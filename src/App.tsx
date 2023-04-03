@@ -15,7 +15,7 @@ import './styles/style.css';
 // Main style
 import './index.scss'
 
-// Lesson Loader
+// Knowledgebase
 import Knowledgebase from './components/Knowledgebase/Knowledgebase'
 
 // Import pages

@@ -37,19 +37,11 @@ export default function LessonPage({
 
   const tocVisible = {
     visibility: "visible",
+    height: 'calc(50% - 1em)'
   };
 
   const tocHidden = {
     visibility: "hidden",
-  };
-
-  const style = {
-    collapsed: {
-      display: 'none'
-    },
-    expanded: {
-      display: 'block'
-    }
   };
 
   useEffect(() => {
@@ -115,9 +107,7 @@ export default function LessonPage({
           <nav className="js-toc" style={tocHidden}></nav>
         }        
         <main className='lesson-content-container' dangerouslySetInnerHTML={{ __html: Buffer.from(lesson, 'base64').toString('ascii'); }} />
-        <div>
         <Footer lesson={lesson} />
-        </div>
       </div>
 
   );

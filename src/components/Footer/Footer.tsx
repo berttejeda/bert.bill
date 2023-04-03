@@ -11,40 +11,14 @@ export default function Footer(lesson, {children}) {
   const [wsUrl, setWSUrl] = useState("");
   const [input, setInput] = useState("");
 
-  /* Below adjustments are for the footer area
-  not to spill over the lesson content
-  TODO, figure out why I can't get these to work
-  as css classes
-  */
-
-  const heightAdjustment = {
-    display: "block",
-    padding: "20px",
-    height: "20rem",
-    width: "100%"
-  }; 
-
-  const xtermAdjustment = {
-    width: "100%"
-  };   
-
-
-  const widthAdjustment = {
-    width: "100px"
-  }; 
-
-  /*
-    Accessor properties
-    scolled and setScrolled are getter 
-    and setter methods, respectively
-  */
-  const [scrolled,setScrolled]=useState(false);
+  // Initialize the footer with this class
+  let footerClasses=['footer-container'];
   
   const handleSocketChange=(socketURL) => {    
     setWSUrl(socketURL)
   }
 
-   useEffect(() => {
+  useEffect(() => {
 
       try {
         fetch(process.env.REACT_APP_API_URI_GET_FOOTER).then(res => res.json()).then(data => {
@@ -57,13 +31,10 @@ export default function Footer(lesson, {children}) {
 
   }, []);   
 
-  // Initialize the navbar with this class
-  let footerClasses=['footer-container'];
-
   return (
 
-  <div className='footer-container'>
-      <div className={footerClasses.join(" ")}>
+  <div className={footerClasses}>
+      <div>
         <header>
           <InputGroup className="mb-3">
             <FormControl

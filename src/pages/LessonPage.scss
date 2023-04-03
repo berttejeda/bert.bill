@@ -26,7 +26,36 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    all:revert !important
+    all:revert !important;
+  }
+
+  a::selection { text-shadow: none; }
+
+  a:hover { color: #fa6f68; }
+
+  a {
+     color: currentColor;
+     background-position: 0% 94%, 100% 94%, 0% 94%;
+     background-repeat: no-repeat, no-repeat, repeat-x;
+     background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+     text-decoration: none;
+     text-shadow: 
+       #fff 0.03em 0px, 
+       #fff -0.03em 0px, 
+       #fff 0px 0.03em, 
+       #fff 0px -0.03em, 
+       #fff 0.06em 0px, 
+       #fff -0.06em 0px, 
+       #fff 0.09em 0px, 
+       #fff -0.09em 0px, 
+       #fff 0.12em 0px, 
+       #fff -0.12em 0px, 
+       #fff 0.15em 0px, 
+       #fff -0.15em 0px;
+     background-image: 
+       linear-gradient(#fff, #fff), 
+       linear-gradient(#fff, #fff), 
+       linear-gradient(#fa6f68, #fa6f68);
   }
 
   p {
@@ -107,5 +136,6 @@
   overflowY: 'scroll';
   background-repeat: repeat;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDYgNiIgd2lkdGg9IjYiIGhlaWdodD0iNiI+Cgk8dGl0bGU+aW1hZ2Utc3ZnPC90aXRsZT4KCTxkZWZzPgoJCTxpbWFnZSAgd2lkdGg9IjYiIGhlaWdodD0iNiIgaWQ9ImltZzEiIGhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQVlBQUFBR0FnTUFBQUNkb2dmYkFBQUFBWE5TUjBJQjJja3Nmd0FBQUFsUVRGUkYrZm41Ky92NzlmWDFyakZYQ2dBQUFCUkpSRUZVZUp4allBeGdnS0FRQm9hd0JVQUVBQlNHQXpSem0wRk5BQUFBQUVsRlRrU3VRbUNDIi8+Cgk8L2RlZnM+Cgk8c3R5bGU+Cgk8L3N0eWxlPgoJPHVzZSBpZD0iTGF5ZXIiIGhyZWY9IiNpbWcxIiB4PSIwIiB5PSIwIi8+Cjwvc3ZnPg==");
+  padding-bottom: calc(50% - 1em);
 }
 
