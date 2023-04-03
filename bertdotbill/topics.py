@@ -12,7 +12,7 @@ class Topics():
   def get(self):
 
     logger.info('Retrieving available topics')
-    topics = self.settings.get('topics', {})
+    topics = self.settings.get('topics', [])
     if len(topics) > 0:
       logger.info('Successfully retrieved available topics')
     else:

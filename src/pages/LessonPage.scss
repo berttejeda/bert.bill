@@ -25,6 +25,41 @@
     width: 60vw;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    all:revert !important
+  }
+
+  p {
+    margin: 1em;
+  }
+
+
+  ol {
+    margin: 0;
+    padding-left: 1em;
+    list-style: decimal;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1em;
+    list-style: square;
+  }
+
+  p {
+    margin: .2em;
+  }
+
+  code {
+    font-family: Consolas,monospace;
+    background: #222;color:#fff;
+  }
+
+  pre {
+    font-family: Consolas,monospace;
+    background: #222;color:#fff;
+  }
+
   .content {
     max-width: 700px;
     margin-left: auto;
@@ -70,5 +105,7 @@
 .lesson-content-container {
   overflow: 'scroll';
   overflowY: 'scroll';
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDYgNiIgd2lkdGg9IjYiIGhlaWdodD0iNiI+Cgk8dGl0bGU+aW1hZ2Utc3ZnPC90aXRsZT4KCTxkZWZzPgoJCTxpbWFnZSAgd2lkdGg9IjYiIGhlaWdodD0iNiIgaWQ9ImltZzEiIGhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQVlBQUFBR0FnTUFBQUNkb2dmYkFBQUFBWE5TUjBJQjJja3Nmd0FBQUFsUVRGUkYrZm41Ky92NzlmWDFyakZYQ2dBQUFCUkpSRUZVZUp4allBeGdnS0FRQm9hd0JVQUVBQlNHQXpSem0wRk5BQUFBQUVsRlRrU3VRbUNDIi8+Cgk8L2RlZnM+Cgk8c3R5bGU+Cgk8L3N0eWxlPgoJPHVzZSBpZD0iTGF5ZXIiIGhyZWY9IiNpbWcxIiB4PSIwIiB5PSIwIi8+Cjwvc3ZnPg==");
 }
 

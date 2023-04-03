@@ -171,7 +171,7 @@ def start_api():
     return available_topics
 
   @app.route('/api/ping')
-  def get_current_time():
+  def ping():
     return {'message': "pong"}
 
   logger.info("Start API")
@@ -180,7 +180,7 @@ def start_api():
   app_host_address = args.host_address or default_app_host_address
 
   local_url = f"http://localhost:{app_port}"
-  if 'WERKZEUG_RUN_MAIN' not in os.environ and not args.api_only:
+  if 'WERKZEUG_RUN_MAIN' not in os.environ and not all([args.api_only or args.no_browser]):
     threading.Timer(args.open_browser_delay, lambda: webbrowser.open(local_url)).start()
 
   if args.all_in_one:

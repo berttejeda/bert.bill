@@ -5,6 +5,7 @@ from bertdotbill.extensions import NewTabExtension
 from jinja2 import Template
 from bertdotbill.logger import Logger
 from bertdotwebadapter import WebAdapter
+import urllib.parse
 
 logger = Logger().init_logger(__name__)
 
@@ -65,8 +66,13 @@ class Lessons:
       return rendered_lesson
 
   # TODO: lesson_url should be renamed to lesson_url
-  def load_lesson(self, lesson_url, no_ui=False, no_render_markdown=False):
-    lesson_url = os.environ.get('lesson_url') or lesson_url
+  def load_lesson(self, utf8_encoded_uri, no_ui=False, no_render_markdown=False):
+    lesson_slug = urllib.parse.unquote(utf8_encoded_uri)
+    lesson_slug_parts = lesson_slug.split('/')
+    topic_name = lesson_slug_parts[0]
+    lesson_name = lesson_slug_parts[-1]
+    derived_lesson_url = [l for l in self.settings.topics[topic_name].lessons if l.get('name') == lesson_name]
+    lesson_url = os.environ.get('lesson_url') or derived_lesson_url[0]['url']
     res_ok = False
     # TODO: Employ per-lesson credentials
     if not no_ui:

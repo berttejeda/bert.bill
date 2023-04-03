@@ -25,6 +25,7 @@ def parse_args(**kwargs):
   parser.add_argument('--api-only', action='store_true', help="Don't serve static assets, only start API")
   parser.add_argument('--webterminal-only', action='store_true', help="Don't serve static assets or start API, only invoke Webterminal Websocket")
   parser.add_argument('--all-in-one', '-aio', action='store_true', help="Run the shell websocket process alongside app")
+  parser.add_argument('--no-browser', '-nobrowser', action='store_true', help="If applicable, don't open the web browser")
   parser.add_argument('--debug', action='store_true')
   parser.add_argument('--no-verify-tls', '-notls',action='store_true', help='Verify SSL cert when downloading web content')
   parser.add_argument('--no-render-markdown', '-nomarkdown', action='store_true')

@@ -17,15 +17,6 @@ export default function Footer(lesson, {children}) {
   as css classes
   */
 
-  const footerAdjustment = {
-    padding: "20px",
-    position: "fixed",
-    left: "0",
-    bottom: "0",
-    height: "20rem",
-    width: "100%",
-  };
-
   const heightAdjustment = {
     display: "block",
     padding: "20px",
@@ -33,10 +24,14 @@ export default function Footer(lesson, {children}) {
     width: "100%"
   }; 
 
-
   const xtermAdjustment = {
     width: "100%"
   };   
+
+
+  const widthAdjustment = {
+    width: "100px"
+  }; 
 
   /*
     Accessor properties
@@ -45,22 +40,6 @@ export default function Footer(lesson, {children}) {
   */
   const [scrolled,setScrolled]=useState(false);
   
-  /* 
-    If the current value of window.scrollY 
-    (vertical scroll length in pixels) exceeds 200
-    change the boolean value of the 'scrolled' accessor
-    to true, otherwise set to false
-  */
-  const handleScroll=() => {
-    const offset=window.scrollY;
-    if(offset > 200 ){
-      setScrolled(true);
-    }
-    else{
-      setScrolled(false);
-    }
-  }
-
   const handleSocketChange=(socketURL) => {    
     setWSUrl(socketURL)
   }
@@ -76,30 +55,15 @@ export default function Footer(lesson, {children}) {
         console.log(e)
       }
 
-  }, [lesson]);   
-
-  useEffect(() => {
-    
-    // Call the handleScroll function when we are vertically scrolling
-    window.addEventListener('scroll',handleScroll)
-
-  },[])
+  }, []);   
 
   // Initialize the navbar with this class
   let footerClasses=['footer-container'];
-    /* 
-      Add the 'scrolled' class to the navbar as 
-      per the 'scroll' event listener above
-    */
-    if(scrolled){
-      footerClasses.push('scrolled');
-  }
 
   return (
 
   <div className='footer-container'>
-      <div style={heightAdjustment} />
-      <div className={footerClasses.join(" ")} style={footerAdjustment}>
+      <div className={footerClasses.join(" ")}>
         <header>
           <InputGroup className="mb-3">
             <FormControl
@@ -121,9 +85,7 @@ export default function Footer(lesson, {children}) {
           }
         </header>
         { (wsUrl && lesson) ?
-          <div style={xtermAdjustment}>
           <XTerm key={wsUrl} wsUrl={wsUrl} lesson={lesson} />
-          </div>
           :
           <div/>
         }
