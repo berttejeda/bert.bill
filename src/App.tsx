@@ -19,8 +19,8 @@ import './index.scss'
 import Knowledgebase from './components/Knowledgebase/Knowledgebase'
 
 // Import pages
-import Dashboard from './pages/Dashboard';
-import LessonPage  from './pages/LessonPage';
+import Dashboard from './components/Dashboard/Dashboard';
+import LessonPage  from './components/LessonPage/LessonPage';
 
 if (window.performance) {
   if (performance.navigation.type == 1) {
@@ -33,7 +33,7 @@ if (window.performance) {
 export default function App () {
 
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   useEffect(() => {
     document.querySelector('html').style.scrollBehavior = 'auto'
     window.scroll({ top: 0 })

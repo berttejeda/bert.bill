@@ -12,12 +12,12 @@ import * as tocbot from 'tocbot';
 @use 'tocbot/src/scss/tocbot';
 
 // Input component
-import Input from '../partials/Input/Input'
+import Input from '../../partials/Input/Input'
 
-import Footer from '../components/Footer/Footer'
+import Footer from '../Footer/Footer'
 
 // Clipboard Access - for copy on-select
-import Clippy from '../partials/Clippy/Clippy'
+import Clippy from '../../partials/Clippy/Clippy'
 
 // For base64 decode/encode
 import { Buffer } from 'buffer'
