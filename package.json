@@ -93,6 +93,8 @@
   "devDependencies": {
     "@parcel/config-default": "^2.6.0",
     "@parcel/transformer-typescript-tsc": "^2.6.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.13",
     "buffer": "^6.0.3",
     "http-proxy-middleware": "^2.0.6",
     "parcel": "^2.6.0",
@@ -101,6 +103,7 @@
     "run-script-os": "1.0.7",
     "sass": "1.25.0",
     "tailwindcss": "^3.1.6",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "vite": "^4.1.1"
   }
 }
