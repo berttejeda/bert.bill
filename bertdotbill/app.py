@@ -23,6 +23,7 @@ default_rightpane_websocket_address, \
 default_verify_tls
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
+from bertdotbill.sidebar import SideBar
 from bertdotbill.topics import Topics
 from bertdotbill.lessons import Lessons
 from bertdotbill.webterminal import WebTerminal
@@ -47,9 +48,16 @@ logger = logger_obj.init_logger('app')
 
 verify_tls = args.no_verify_tls or default_verify_tls
 
-# Initialize Config Reader
-settings = AppConfig().initialize(
-  args=vars(args), verify_tls=verify_tls
+# Initialize Config Readers
+app_config = AppConfig().initialize(
+  args=vars(args),
+  verify_tls=verify_tls
+)
+
+sidebar_config = AppConfig().initialize(
+  args=vars(args),
+  config_file='etc/sidebar.yaml',
+  verify_tls=verify_tls
 )
 
 if args.api_only:
@@ -60,18 +68,23 @@ else:
 
 # Initialize Topics Loader
 topics = Topics(
-  settings=settings,
+  settings=app_config,
   args=args)
 
 # Initialize Lesson Loader
 lessons = Lessons(
-    settings=settings,
+    settings=app_config,
     args=args, 
     no_render_markdown=args.no_render_markdown,
     verify_tls=verify_tls
     )
 
 # Initialize Lesson Loader
+sidebar_config = SideBar(
+  settings=sidebar_config,
+  args=args)
+
+# Initialize Websocket handler
 websocket = WebSocket()
 
 if static_assets_folder:
@@ -90,7 +103,7 @@ else:
 def start_webterminal():
   webterminal_listen_host  = args.webterminal_listen_host  or default_webterminal_listen_host 
   webterminal_listen_port = args.webterminal_listen_port or default_webterminal_listen_port
-  WebTerminal(settings, args).start(host=webterminal_listen_host , port=webterminal_listen_port)
+  WebTerminal(app_config, args).start(host=webterminal_listen_host , port=webterminal_listen_port)
 
 def start_api():
   """API functions.
@@ -126,7 +139,7 @@ def start_api():
 
   @app.route('/api/getRightPaneWebSocketAddress')
   def get_rightpane_websocket_address():
-    default_address = settings.get('webterminal.rightpane.address', default_rightpane_websocket_address)
+    default_address = app_config.get('webterminal.rightpane.address', default_rightpane_websocket_address)
     effective_address = default_address
     response_obj = {'address': effective_address}
     return response_obj
@@ -136,7 +149,7 @@ def start_api():
     if args.webterminal_host:
         footer_websocket_address = args.webterminal_host
     else:
-        footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
+        footer_websocket_address = app_config.get('webterminal.footer.address', default_footer_websocket_address)
     footer_http_address = footer_websocket_address.replace('ws', 'http')
     cols = request.json.get('cols')
     rows = request.json.get('rows')
@@ -155,7 +168,7 @@ def start_api():
     if args.webterminal_host:
         footer_websocket_address = args.webterminal_host
     else:
-        footer_websocket_address = settings.get('webterminal.footer.address', default_footer_websocket_address)
+        footer_websocket_address = app_config.get('webterminal.footer.address', default_footer_websocket_address)
     footer_http_address = footer_websocket_address.replace('ws', 'http')
     footer_query = f'{footer_http_address}/api/terminals?cols=256&rows=50'
     footer_request = requests.post(footer_query)
@@ -169,6 +182,10 @@ def start_api():
   def get_topics():
     available_topics = topics.get()
     return available_topics
+
+  @app.route('/api/getSideBarSettings')
+  def get_sidebar_settings():
+    return {'settings': sidebar_config.settings}
 
   @app.route('/api/ping')
   def ping():

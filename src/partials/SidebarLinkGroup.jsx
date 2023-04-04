@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SidebarLinkGroup({
+export default function SidebarLinkGroup({
   children,
   activecondition,
 }) {
@@ -17,5 +17,3 @@ function SidebarLinkGroup({
     </li>
   );
 }
-
-export default SidebarLinkGroup;

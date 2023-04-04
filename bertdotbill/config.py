@@ -21,7 +21,9 @@ class AppConfig():
     'environment': os.environ
     }  
 
-    config_file_uri = args.get('config_file') or default_config_file_name
+    config_file_uri = kwargs.get('config_file') or \
+                      args.get('config_file') or \
+                      default_config_file_name
     logger.info(f"Config file URI is {config_file_uri}")
     # Initialize App Config
     config = Config(

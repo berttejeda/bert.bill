@@ -1,4 +1,3 @@
-import base64
 from bertdotbill.logger import Logger
 
 logger = Logger().init_logger(__name__)
