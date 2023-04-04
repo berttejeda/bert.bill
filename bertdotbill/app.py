@@ -20,6 +20,7 @@ default_footer_websocket_address, \
 default_webterminal_listen_host , \
 default_webterminal_listen_port, \
 default_rightpane_websocket_address, \
+default_sidebar_config_file, \
 default_verify_tls
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
@@ -56,7 +57,7 @@ app_config = AppConfig().initialize(
 
 sidebar_config = AppConfig().initialize(
   args=vars(args),
-  config_file='etc/sidebar.yaml',
+  config_file=args.sidebar_config_file or default_sidebar_config_file,
   verify_tls=verify_tls
 )
 
