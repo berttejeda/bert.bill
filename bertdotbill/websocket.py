@@ -1,5 +1,4 @@
 from ws4py.client.threadedclient import WebSocketClient
-from pprint import pprint
 import json
 from bertdotbill.logger import Logger
 
@@ -20,7 +19,7 @@ class WebSocket():
         self.logger.info(("Message", json.loads(m.data.decode('utf-8'))))
 
     def send_to_websocket(self, wsUrl, data):
-      logger.info('Sending data to socket at %s: "%s"' % (wsUrl, data))
+      logger.info(f'Sending data to socket at {wsUrl}: "{data}"')
       if len(wsUrl) > 0:
         websocket = WebSocketClient(wsUrl)
         websocket.daemon = False
