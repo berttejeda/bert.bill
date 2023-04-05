@@ -17,6 +17,7 @@ import './index.scss'
 
 // Knowledgebase
 import Knowledgebase from './components/Knowledgebase/Knowledgebase'
+import MyNotes from './components/MyNotes/MyNotes'
 
 // Import pages
 import Dashboard from './components/Dashboard/Dashboard';
@@ -59,6 +60,7 @@ export default function App () {
             <Route exact path="/knowledgebase" element={<Knowledgebase />} />
             {/*<Route path="/knowledgebase/:lessonID" element={<div>This is a lesson!!</div>} />*/}
             <Route path="/knowledgebase/:topicName/:lessonName/*" element={<LessonPage />} />
+            <Route path="/notes" element={<MyNotes />} />
           </Routes>
 
 

@@ -4,10 +4,10 @@ sections:
       links:
         - name: Main
           url: /
-        - name: Analytics
-          url: /analytics
-        - name: Knowledgebase
+        - name: My Knowledgebase
           url: /knowledgebase
+        - name: My Notes
+          url: /notes
       svg:
         paths:
           - name: circle-large
@@ -25,39 +25,39 @@ sections:
             classNameTernary:
               true: 'text-indigo-200'
               false: 'text-slate-400'
-    E-Commerce:
+    # Example:
+    #   links:
+    #     - name: Some Page
+    #       url: /example/some-page
+    #     - name: Some Other Page
+    #       url: /example/some-other-page
+    #   svg:
+    #     paths:
+    #       - name: cube-side-top
+    #         d: M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z
+    #         classNameTernary:
+    #           true: 'text-indigo-300'
+    #           false: 'text-slate-400'
+    #       - name: cube-side-left
+    #         d: M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z
+    #         classNameTernary:
+    #           true: 'text-indigo-600'
+    #           false: 'text-slate-700'
+    #       - name: cube-side-right
+    #         d: M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z
+    #         classNameTernary:
+    #           true: 'text-indigo-500'
+    #           false: 'text-slate-600'
+    Handy Bookmarks:
       links:
-        - name: Customers
-          url: /e-commerce/customers
-        - name: Orders
-          url: /e-commerce/orders
-        - name: Invoices
-          url: /e-commerce/invoices
-        - name: Shop
-          url: /e-commerce/shop
-        - name: Single Product
-          url: /e-commerce/product
-      svg:
-        paths:
-          - name: cube-side-top
-            d: M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z
-            classNameTernary:
-              true: 'text-indigo-300'
-              false: 'text-slate-400'
-          - name: cube-side-left
-            d: M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z
-            classNameTernary:
-              true: 'text-indigo-600'
-              false: 'text-slate-700'
-          - name: cube-side-right
-            d: M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z
-            classNameTernary:
-              true: 'text-indigo-500'
-              false: 'text-slate-600'
-    Quick Links:
-      links:
-        - name: Google
-          url: 'https://www.google.com'
+        - name: Python Flask
+          url: 'https://flask.palletsprojects.com'
+          target: _blank     
+        - name: React
+          url: 'https://react.dev/'
+          target: _blank
+        - name: TailwindCSS
+          url: 'https://tailwindui.com/'
           target: _blank
       svg:
         paths:
@@ -71,35 +71,35 @@ sections:
             classNameTernary:
               true: 'text-indigo-300'
               false: 'text-slate-400'
-    Settings:
-      links:
-        - name: My Account
-          url: /settings/account
-        - name: My Notifications
-          url: /settings/notifications
-        - name: Connected Apps
-          url: /settings/apps
-        - name: Give Feedback
-          url: /settings/feedback
-      svg:
-        paths:
-          - name: top-right-diagonal
-            d: M19.714 14.7l-7.007 7.007-1.414-1.414 7.007-7.007c-.195-.4-.298-.84-.3-1.286a3 3 0 113 3 2.969 2.969 0 01-1.286-.3z
-            classNameTernary:
-              true: 'text-indigo-500'
-              false: 'text-slate-600'
-          - name: bottom-right-diagonal
-            d: M10.714 18.3c.4-.195.84-.298 1.286-.3a3 3 0 11-3 3c.002-.446.105-.885.3-1.286l-6.007-6.007 1.414-1.414 6.007 6.007z
-            classNameTernary:
-              true: 'text-indigo-300'
-              false: 'text-slate-400'
-          - name: bottom-left-diagonal
-            d: M5.7 10.714c.195.4.298.84.3 1.286a3 3 0 11-3-3c.446.002.885.105 1.286.3l7.007-7.007 1.414 1.414L5.7 10.714z
-            classNameTernary:
-              true: 'text-indigo-500'
-              false: 'text-slate-600'
-          - name: top-left-diagonal
-            d: M19.707 9.292a3.012 3.012 0 00-1.415 1.415L13.286 5.7c-.4.195-.84.298-1.286.3a3 3 0 113-3 2.969 2.969 0 01-.3 1.286l5.007 5.006z
-            classNameTernary:
-              true: 'text-indigo-300'
-              false: 'text-slate-400'
+    # Settings:
+    #   links:
+    #     - name: App Configuration
+    #       url: /settings/account
+    #     - name: My Notifications
+    #       url: /settings/notifications
+    #     - name: Connected Apps
+    #       url: /settings/apps
+    #     - name: Give Feedback
+    #       url: /settings/feedback
+    #   svg:
+    #     paths:
+    #       - name: top-right-diagonal
+    #         d: M19.714 14.7l-7.007 7.007-1.414-1.414 7.007-7.007c-.195-.4-.298-.84-.3-1.286a3 3 0 113 3 2.969 2.969 0 01-1.286-.3z
+    #         classNameTernary:
+    #           true: 'text-indigo-500'
+    #           false: 'text-slate-600'
+    #       - name: bottom-right-diagonal
+    #         d: M10.714 18.3c.4-.195.84-.298 1.286-.3a3 3 0 11-3 3c.002-.446.105-.885.3-1.286l-6.007-6.007 1.414-1.414 6.007 6.007z
+    #         classNameTernary:
+    #           true: 'text-indigo-300'
+    #           false: 'text-slate-400'
+    #       - name: bottom-left-diagonal
+    #         d: M5.7 10.714c.195.4.298.84.3 1.286a3 3 0 11-3-3c.446.002.885.105 1.286.3l7.007-7.007 1.414 1.414L5.7 10.714z
+    #         classNameTernary:
+    #           true: 'text-indigo-500'
+    #           false: 'text-slate-600'
+    #       - name: top-left-diagonal
+    #         d: M19.707 9.292a3.012 3.012 0 00-1.415 1.415L13.286 5.7c-.4.195-.84.298-1.286.3a3 3 0 113-3 2.969 2.969 0 01-.3 1.286l5.007 5.006z
+    #         classNameTernary:
+    #           true: 'text-indigo-300'
+    #           false: 'text-slate-400'
