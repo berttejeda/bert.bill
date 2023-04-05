@@ -13,7 +13,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sidebarSettings }) {
   const [sidebarSettings, setSidebarSettings] = useState(null);
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
-  console.log(storedSidebarExpanded)
   const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true');
 
   // close on click outside
