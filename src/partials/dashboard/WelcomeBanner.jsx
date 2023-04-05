@@ -60,7 +60,7 @@ function WelcomeBanner() {
 
       {/* Content */}
       <div className="relative">
-        <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1">{greeting}, {process.env.REACT_SITE_USER} 👋</h1>
+        <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1">{greeting}, {process.env['SITE_USER'] || process.env.REACT_DEFAULT_SITE_USER} 👋</h1>
         <p>Here is what’s happening with your projects today:</p>
       </div>
 
