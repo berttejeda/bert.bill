@@ -13,3 +13,18 @@
   transform: translateX(-1px);
   
 }
+
+.mb-3 input, optgroup, select, textarea {
+  width: 30em;
+}
+
+.mb-3 button {
+  margin-left: 2em;
+  width: 10em;
+  color: revert;
+  border: revert;
+}
+
+.error-text {
+  color: red;
+}
