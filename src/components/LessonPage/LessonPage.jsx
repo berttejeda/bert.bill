@@ -102,12 +102,14 @@ export default function LessonPage({
           <Clippy/>
         </div>
         { (lesson) ?
-          <nav className="js-toc" style={tocVisible}></nav>
+          [
+            <nav key="js-toc-on" className="js-toc" style={tocVisible}></nav>,
+            <main key="lesson-content" className='lesson-content-container' dangerouslySetInnerHTML={{ __html: Buffer.from(lesson, 'base64').toString('ascii'); }} />,
+            <Footer lesson={lesson} />
+          ]
           :
-          <nav className="js-toc" style={tocHidden}></nav>
+          <nav key="js-toc-off" className="js-toc" style={tocHidden}></nav>
         }
-        <main className='lesson-content-container' dangerouslySetInnerHTML={{ __html: Buffer.from(lesson, 'base64').toString('ascii'); }} />
-        <Footer lesson={lesson} />
       </div>
 
   );
