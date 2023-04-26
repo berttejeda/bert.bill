@@ -1,15 +1,134 @@
-// React core
-import React,{useEffect, useState} from 'react';
+import React,{ChangeEvent, useEffect, useState} from 'react';
 
-import LessonCard from '../../partials/lesson/LessonCard';
+import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import TableHead from '@mui/material/TableHead';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
-export default function Knowledgebase(props) {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
-  // For receiving the list of topics
-  // from the python process
-  const [topics, setTopics] = useState([])    
+function hashString(string) {
+  var hash = 0,
+    i, chr;
+  if (string.length === 0) return hash;
+  for (i = 0; i < string.length; i++) {
+    chr = string.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return String(Math.abs(hash)).substring(0,6);
+}
 
-  const [apiPing, setApiPing] = useState(null);
+function flatten(obj, suffix, ans) {
+
+  for (var x in obj) {
+      var key;
+      if (suffix != '')
+        key = suffix + '|' + x;
+      else
+        key = x;
+    if (typeof obj[x] === 'object') {
+      flatten(obj[x], key, ans);
+    } else {
+      ans[key] = obj[x];
+    }
+  }
+}
+
+function TablePaginationActions(props) {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+const rows = [];
+
+export default function Knowledgebase() {
+
+
+
+  console.log('Rendering Knowledgebase') 
+
+  const [topics, setTopics] = useState([])
+  const [flattenedTopics, setFlattenedTopics] = useState({})
+  const [apiPing, setApiPing] = useState(null);  
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   useEffect(() => {
 
@@ -21,60 +140,157 @@ export default function Knowledgebase(props) {
 
   useEffect(() => {
 
-      try {
-        fetch(process.env.REACT_APP_API_URI_PING).then(res => res.json()).then(data => {
-          setApiPing(data.message);
-        });
-      } catch (e) {
-        console.log(e)
+    try {
+      fetch(process.env.REACT_APP_API_URI_PING).then(res => res.json()).then(data => {
+        setApiPing(data.message);
+      });
+    } catch (e) {
+      console.log(e)
+    }  
+
+  }, []);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // { 
+  //   Object.keys(topics).forEach(topicName =>
+  //     topics[topicName]['lessons'].forEach(lessonObj =>
+  //       console.log(lessonObj)
+  //     )
+  //   ) 
+  // }
+
+  let topic_dict = {};
+
+  function newD(obj, ans) {
+
+    for (var x in obj) {
+      for i in topics[x].lessons{
+        console.log(x)
+        console.log(topics[x].lessons[i])
       }
+    }
+  }  
 
-  }, []);    
+  useEffect(() => {
+    {
+      // console.log(Object.keys(topics).length)
+      if (Object.keys(topics).length > 0){
+        // console.log(Object.keys(topics))
+        // console.log(Object.entries(topics))
+        // console.log(Object.keys(topics).slice(2))
+        //   console.log(key)
+        // )
+        // let f = {};
+        // newD(topics, f)
+        // flatten(topics, "", f)
+        // setFlattenedTopics(f)
 
-    console.log('Rendering Knowledgebase') 
+      (rowsPerPage > 0
+        ? Object.keys(topics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        : Object.keys(topics)
+      ).map((topicName) => (
+        console.log(topicName)
+      )
 
-    // { 
-    //   Object.keys(topics).forEach(topicName =>
-    //     topics[topicName]['lessons'].forEach(lessonObj =>
-    //       console.log(lessonObj)
-    //     )
-    //   ) 
-    // }    
-    return (
-      <div className='px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto'>
+      }
+    }
+  },[topics])
 
-             <div className="grid grid-cols-12 gap-6">
+  // useEffect(() => {
+  //   console.log(flattenedTopics)
+  //   // (rowsPerPage > 0
+  //   //   ? Object.entries(flattenedTopics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  //   //   : Object.entries(flattenedTopics)
+  //   // ).map((topicObj) => (
+  //   //   console.log(topicObj)
+  //   // )
+
+  // },[flattenedTopics])   
+
+  return (
+    <div className='w-full'>
+     
+    { (apiPing) ?
+        <div>One Moment Please</div>
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+      <TableHead>
+          <TableRow>
+            <StyledTableCell>Lesson ID</StyledTableCell>
+            <StyledTableCell align="left">Lesson Name</StyledTableCell>
+            <StyledTableCell align="left">Lesson Source URL</StyledTableCell>
+            <StyledTableCell align="left">Duration</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {
+            (
+              rowsPerPage > 0
+              ? Object.keys(topics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : Object.keys(topics)
+            ).map((topicName)=> {
               {
-                Object.keys(topics).map((topicName)=> {
-                  {
-                    return Object.entries(topics[topicName].lessons).map(([lessonDataKey, lessonData]) =>
-
-                      <LessonCard 
-                        key={topicName + '_' + lessonData['name']} 
-                        topicName={topicName} 
-                        lessonDuration={lessonData['duration']} 
-                        lessonName={lessonData['name']} 
-                        lessonUrl={lessonData['url']} 
-                        lessonDataKey={lessonDataKey} 
-                        lessonData={lessonData}
-                      />
-                    )
-                  }
-                }
+                return Object.entries(topics[topicName].lessons).map(([lessonDataKey, lessonData]) =>
+                <TableRow key={topicName + '_' + lessonData['name']}>
+                  <TableCell component="th" scope="row" style={{ width: 160 }}>
+                    {topicName.substring(0,3).toUpperCase() + hashString(topicName + '_' + lessonData['name'])}
+                  </TableCell>
+                  <TableCell style={{ width: 160 }} align="left">
+                    {lessonData['name']}
+                  </TableCell>                  
+                  <TableCell style={{ width: 160 }} align="left">
+                    {lessonData['url']}
+                  </TableCell>
+                  <TableCell style={{ width: 160 }} align="left">
+                    {lessonData['duration']}
+                  </TableCell>
+                </TableRow>
                 )
               }
-            </div>
+            }
+            )
+          }
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              colSpan={3}
+              count={Object.keys(topics).length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
 
+      :
+      
+        <div>Couldn't ping API at {process.env.REACT_APP_API_URI_PING}<br />
+        You can start your api locally via docker with:<br />
+        <code>docker run -it --rm --name bill --network=host berttejeda/bill --api-only</code><br />
+        Make sure to refresh this page once your API is running.
+        Read more at <a href="https://github.com/berttejeda/bert.bill">https://github.com/berttejeda/bert.bill</a></div> 
+        
+      }
 
-
-        { (!apiPing) ?
-
-          <div>Couldn't ping API at {process.env.REACT_APP_API_URI_PING}<br />
-          You can start your api locally via docker with:<br />
-          <code>docker run -it --rm --name bill --network=host berttejeda/bill --api-only</code><br />
-          Make sure to refresh this page once your API is running.
-          Read more at <a href="https://github.com/berttejeda/bert.bill">https://github.com/berttejeda/bert.bill</a></div> 
-          : null
-        }
-      </div>
-    )
+    </div>
+  );
+}
