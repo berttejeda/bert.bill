@@ -1,23 +1,24 @@
 import React,{ChangeEvent, useEffect, useState} from 'react';
-
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
+import IconButton from '@mui/material/IconButton';
+import isEmpty from 'lodash';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import TableHead from '@mui/material/TableHead';
+import Paper from '@mui/material/Paper';
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -26,6 +27,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
   },
 }));
 
@@ -121,14 +129,15 @@ export default function Knowledgebase() {
 
   console.log('Rendering Knowledgebase') 
 
-  const [topics, setTopics] = useState([])
-  const [flattenedTopics, setFlattenedTopics] = useState({})
   const [apiPing, setApiPing] = useState(null);  
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const [flattenedTopics, setFlattenedTopics] = useState({})
+  const navigate = useNavigate();    
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [topics, setTopics] = useState([])
 
   useEffect(() => {
 
@@ -168,40 +177,40 @@ export default function Knowledgebase() {
 
   let topic_dict = {};
 
-  function newD(obj, ans) {
+  // function newD(obj, ans) {
 
-    for (var x in obj) {
-      for i in topics[x].lessons{
-        console.log(x)
-        console.log(topics[x].lessons[i])
-      }
-    }
-  }  
+  //   for (var x in obj) {
+  //     for i in topics[x].lessons{
+  //       console.log(x)
+  //       console.log(topics[x].lessons[i])
+  //     }
+  //   }
+  // }  
 
-  useEffect(() => {
-    {
-      // console.log(Object.keys(topics).length)
-      if (Object.keys(topics).length > 0){
-        // console.log(Object.keys(topics))
-        // console.log(Object.entries(topics))
-        // console.log(Object.keys(topics).slice(2))
-        //   console.log(key)
-        // )
-        // let f = {};
-        // newD(topics, f)
-        // flatten(topics, "", f)
-        // setFlattenedTopics(f)
+  // useEffect(() => {
+  //   {
+  //     // console.log(Object.keys(topics).length)
+  //     if (Object.keys(topics).length > 0){
+  //       // console.log(Object.keys(topics))
+  //       // console.log(Object.entries(topics))
+  //       // console.log(Object.keys(topics).slice(2))
+  //       //   console.log(key)
+  //       // )
+  //       // let f = {};
+  //       // newD(topics, f)
+  //       // flatten(topics, "", f)
+  //       // setFlattenedTopics(f)
 
-      (rowsPerPage > 0
-        ? Object.keys(topics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        : Object.keys(topics)
-      ).map((topicName) => (
-        console.log(topicName)
-      )
+  //     (rowsPerPage > 0
+  //       ? Object.keys(topics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  //       : Object.keys(topics)
+  //     ).map((topicName) => (
+  //       console.log(topicName)
+  //     )
 
-      }
-    }
-  },[topics])
+  //     }
+  //   }
+  // },[topics])
 
   // useEffect(() => {
   //   console.log(flattenedTopics)
@@ -213,6 +222,22 @@ export default function Knowledgebase() {
   //   // )
 
   // },[flattenedTopics])   
+
+  const [selectedRow, setSelectedRow] = useState({});
+  
+  const handleSelectRow = (rowData) => {
+    console.log(rowData)
+  }
+
+  const handleRowOnClick = (rowName, rowData) => {
+    const topicName = rowName
+    const lessonName = rowData['name']
+    const topic_slug = encodeURIComponent(topicName);
+    const lesson_slug = encodeURIComponent(lessonName)
+    const slug = `${topic_slug}/${lesson_slug}`;
+    console.log(`Navigating to ${slug}`)
+    navigate(slug);
+  }  
 
   return (
     <div className='w-full'>
@@ -226,7 +251,7 @@ export default function Knowledgebase() {
             <StyledTableCell>Lesson ID</StyledTableCell>
             <StyledTableCell align="left">Lesson Name</StyledTableCell>
             <StyledTableCell align="left">Lesson Source URL</StyledTableCell>
-            <StyledTableCell align="left">Duration</StyledTableCell>
+            <StyledTableCell align="left">Lesson Duration (minutes)</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -238,7 +263,13 @@ export default function Knowledgebase() {
             ).map((topicName)=> {
               {
                 return Object.entries(topics[topicName].lessons).map(([lessonDataKey, lessonData]) =>
-                <TableRow key={topicName + '_' + lessonData['name']}>
+                <StyledTableRow 
+                key={topicName + '_' + lessonData['name']}
+                hover=true
+                onClick={() => {
+                  handleRowOnClick(topicName, lessonData);
+                }}
+                >
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
                     {topicName.substring(0,3).toUpperCase() + hashString(topicName + '_' + lessonData['name'])}
                   </TableCell>
@@ -251,7 +282,7 @@ export default function Knowledgebase() {
                   <TableCell style={{ width: 160 }} align="left">
                     {lessonData['duration']}
                   </TableCell>
-                </TableRow>
+                </StyledTableRow>
                 )
               }
             }
