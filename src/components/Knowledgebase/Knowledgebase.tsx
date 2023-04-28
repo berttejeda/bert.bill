@@ -46,7 +46,7 @@ function hashString(string) {
     hash = ((hash << 5) - hash) + chr;
     hash |= 0; // Convert to 32bit integer
   }
-  return String(Math.abs(hash)).substring(0,6);
+  return String(Math.abs(hash)).substring(0,8);
 }
 
 function flatten(obj, suffix, ans) {
@@ -125,15 +125,13 @@ const rows = [];
 
 export default function Knowledgebase() {
 
-
-
   console.log('Rendering Knowledgebase') 
 
   const [apiPing, setApiPing] = useState(null);  
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  const [flattenedTopics, setFlattenedTopics] = useState({})
+  const [flattendLessons, setFlattenedLessons] = useState([])
   const navigate = useNavigate();    
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -167,61 +165,24 @@ export default function Knowledgebase() {
     setPage(0);
   };
 
-  // { 
-  //   Object.keys(topics).forEach(topicName =>
-  //     topics[topicName]['lessons'].forEach(lessonObj =>
-  //       console.log(lessonObj)
-  //     )
-  //   ) 
-  // }
-
   let topic_dict = {};
 
-  // function newD(obj, ans) {
+  useEffect(() => {
+    {
+      if (Object.keys(topics).length > 0){
 
-  //   for (var x in obj) {
-  //     for i in topics[x].lessons{
-  //       console.log(x)
-  //       console.log(topics[x].lessons[i])
-  //     }
-  //   }
-  // }  
+      let lessons = []
+      for (var key in topics) {
+        for i in topics[key].lessons{
+          lessons = [...lessons, [key, topics[key].lessons[i]]]
+        }
+      }
 
-  // useEffect(() => {
-  //   {
-  //     // console.log(Object.keys(topics).length)
-  //     if (Object.keys(topics).length > 0){
-  //       // console.log(Object.keys(topics))
-  //       // console.log(Object.entries(topics))
-  //       // console.log(Object.keys(topics).slice(2))
-  //       //   console.log(key)
-  //       // )
-  //       // let f = {};
-  //       // newD(topics, f)
-  //       // flatten(topics, "", f)
-  //       // setFlattenedTopics(f)
+      setFlattenedLessons(lessons)
 
-  //     (rowsPerPage > 0
-  //       ? Object.keys(topics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-  //       : Object.keys(topics)
-  //     ).map((topicName) => (
-  //       console.log(topicName)
-  //     )
-
-  //     }
-  //   }
-  // },[topics])
-
-  // useEffect(() => {
-  //   console.log(flattenedTopics)
-  //   // (rowsPerPage > 0
-  //   //   ? Object.entries(flattenedTopics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-  //   //   : Object.entries(flattenedTopics)
-  //   // ).map((topicObj) => (
-  //   //   console.log(topicObj)
-  //   // )
-
-  // },[flattenedTopics])   
+      }
+    }
+  },[topics])
 
   const [selectedRow, setSelectedRow] = useState({});
   
@@ -249,6 +210,7 @@ export default function Knowledgebase() {
       <TableHead>
           <TableRow>
             <StyledTableCell>Lesson ID</StyledTableCell>
+            <StyledTableCell align="left">Lesson Topic</StyledTableCell>
             <StyledTableCell align="left">Lesson Name</StyledTableCell>
             <StyledTableCell align="left">Lesson Source URL</StyledTableCell>
             <StyledTableCell align="left">Lesson Duration (minutes)</StyledTableCell>
@@ -258,32 +220,34 @@ export default function Knowledgebase() {
           {
             (
               rowsPerPage > 0
-              ? Object.keys(topics).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : Object.keys(topics)
-            ).map((topicName)=> {
+              ? flattendLessons.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : flattendLessons
+            ).map((lessonData)=> {
               {
-                return Object.entries(topics[topicName].lessons).map(([lessonDataKey, lessonData]) =>
-                <StyledTableRow 
-                key={topicName + '_' + lessonData['name']}
+                {let lessonID = hashString(`${lessonData[0].substring(0,3).toUpperCase()}_${lessonData[0]}_${lessonData[1]['name']}`)}
+                return <StyledTableRow 
+                key={lessonID}
                 hover=true
                 onClick={() => {
-                  handleRowOnClick(topicName, lessonData);
+                  handleRowOnClick(lessonData[0], lessonData[1]);
                 }}
                 >
                   <TableCell component="th" scope="row" style={{ width: 160 }}>
-                    {topicName.substring(0,3).toUpperCase() + hashString(topicName + '_' + lessonData['name'])}
+                    {lessonID}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="left">
-                    {lessonData['name']}
+                    {lessonData[0]}
+                  </TableCell>                   
+                  <TableCell style={{ width: 160 }} align="left">
+                    {lessonData[1]['name']}
                   </TableCell>                  
                   <TableCell style={{ width: 160 }} align="left">
-                    {lessonData['url']}
+                    {lessonData[1]['url']}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="left">
-                    {lessonData['duration']}
+                    {lessonData[1]['duration']}
                   </TableCell>
                 </StyledTableRow>
-                )
               }
             }
             )
@@ -294,7 +258,7 @@ export default function Knowledgebase() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={Object.keys(topics).length}
+              count={flattendLessons.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
