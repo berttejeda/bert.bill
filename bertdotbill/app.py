@@ -20,10 +20,12 @@ default_footer_websocket_address, \
 default_webterminal_listen_host , \
 default_webterminal_listen_port, \
 default_rightpane_websocket_address, \
+default_dashboard_config_file, \
 default_sidebar_config_file, \
 default_verify_tls
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
+from bertdotbill.dashboard import Dashboard
 from bertdotbill.sidebar import SideBar
 from bertdotbill.topics import Topics
 from bertdotbill.lessons import Lessons
@@ -61,6 +63,12 @@ sidebar_config = AppConfig().initialize(
   verify_tls=verify_tls
 )
 
+dashboard_config = AppConfig().initialize(
+  args=vars(args),
+  config_file=args.dashboard_config_file or default_dashboard_config_file,
+  verify_tls=verify_tls
+)
+
 if args.api_only:
     static_assets_folder = None
 else:
@@ -80,8 +88,13 @@ lessons = Lessons(
     verify_tls=verify_tls
     )
 
-# Initialize Lesson Loader
-sidebar_config = SideBar(
+# Initialize Dashboard Settings
+dashboard = Dashboard(
+  settings=dashboard_config,
+  args=args)
+
+# Initialize Sidebar Settings
+sidebar = SideBar(
   settings=sidebar_config,
   args=args)
 
@@ -179,14 +192,18 @@ def start_api():
     response_obj = {'address': footer_websocket_address}
     return response_obj
 
+  @app.route('/api/getDashboardSettings')
+  def get_dashboard_settings():
+    return {'settings': dashboard.settings}
+
+  @app.route('/api/getSideBarSettings')
+  def get_sidebar_settings():
+    return {'settings': sidebar.settings}
+
   @app.route('/api/getTopics')
   def get_topics():
     available_topics = topics.get()
     return available_topics
-
-  @app.route('/api/getSideBarSettings')
-  def get_sidebar_settings():
-    return {'settings': sidebar_config.settings}
 
   @app.route('/api/ping')
   def ping():

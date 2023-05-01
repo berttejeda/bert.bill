@@ -1,0 +1,15 @@
+dashboard:
+  cards:
+    recent_activity:
+      title: "Recent Activity"
+      type: message.container
+      data:
+        exec:
+          command: |-
+            python ~/git/self/bert.dashboard.plugins/message/container/__init__.py
+
+types:
+  - message.container
+  - chart.bar
+  - chart.line
+  - chart.area

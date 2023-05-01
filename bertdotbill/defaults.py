@@ -25,6 +25,7 @@ default_app_port = 10000
 default_open_browser_delay = 1.25
 default_config_file_name = 'lessons.yaml'
 default_app_host_address = '0.0.0.0'
+default_dashboard_config_file = 'etc/dashboard.yaml'
 default_sidebar_config_file = 'etc/sidebar.yaml'
 default_settings = {
   "terminals": {
