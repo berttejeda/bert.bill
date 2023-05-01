@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import SidebarPageGroup from './SidebarPageGroup';
 
-function Sidebar({ sidebarOpen, setSidebarOpen, sidebarSettings }) {
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
   const { pathname } = location;
 
@@ -49,7 +49,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sidebarSettings }) {
 
       try {
         fetch(`${process.env.REACT_APP_API_HOST}/api/getSideBarSettings`).then(res => res.json()).then(data => {
-          setSidebarSettings(data.settings.sections);
+          setSidebarSettings(data.settings.sidebar);
         });
       } catch (e) {
         console.log(e)
