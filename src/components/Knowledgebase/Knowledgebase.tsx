@@ -19,10 +19,11 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { hashString, tailwindConfig, hexToRGB } from 'utils/Utils';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: tailwindConfig().theme.colors.indigo[200],
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -36,34 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-function hashString(string) {
-  var hash = 0,
-    i, chr;
-  if (string.length === 0) return hash;
-  for (i = 0; i < string.length; i++) {
-    chr = string.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return String(Math.abs(hash)).substring(0,8);
-}
-
-function flatten(obj, suffix, ans) {
-
-  for (var x in obj) {
-      var key;
-      if (suffix != '')
-        key = suffix + '|' + x;
-      else
-        key = x;
-    if (typeof obj[x] === 'object') {
-      flatten(obj[x], key, ans);
-    } else {
-      ans[key] = obj[x];
-    }
-  }
-}
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -168,19 +141,17 @@ export default function Knowledgebase() {
   let topic_dict = {};
 
   useEffect(() => {
-    {
-      if (Object.keys(topics).length > 0){
+    if (Object.keys(topics).length > 0){
 
-      let lessons = []
-      for (var key in topics) {
-        for i in topics[key].lessons{
-          lessons = [...lessons, [key, topics[key].lessons[i]]]
-        }
+    let lessons = []
+    for (var key in topics) {
+      for i in topics[key].lessons{
+        lessons = [...lessons, [key, topics[key].lessons[i]]]
       }
+    }
 
-      setFlattenedLessons(lessons)
+    setFlattenedLessons(lessons)
 
-      }
     }
   },[topics])
 
