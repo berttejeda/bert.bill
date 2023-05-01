@@ -14,7 +14,7 @@ export default function DashboardCard({
       </header>
       <div className="p-3">
       {
-        Object.keys(cardData).length > 0
+        Object.keys(cardData).length > 0 && !cardData?.error
         ?
           Object.entries(cardData).map((messageGroupObj)=> {
             {let messageGroupID = messageGroupObj[0]}
@@ -39,8 +39,18 @@ export default function DashboardCard({
             )
           :   <div>
               <header className="text-xs uppercase text-slate-400 bg-slate-50 rounded-sm font-semibold p-2">
-              RECEIVED NO MESSAGES
+              {
+                !cardData?.error
+                ?
+                  'RECEIVED NO MESSAGES'
+                : 'Error'
+              }
               </header>
+              <ul className="my-1">
+              <li className="flex px-2">
+              {cardData?.error}
+              </li>
+              </ul>
             </div>
       }
       </div>

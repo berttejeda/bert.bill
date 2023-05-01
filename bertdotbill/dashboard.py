@@ -18,7 +18,10 @@ class Dashboard():
           data = self.settings.dashboard[dk][ck].get('data', {})
           data_exec = data.get('exec')
           if data_exec:
-            exec_result = run(['/bin/bash', '-c', data_exec.command], capture_output=True, text=True)
-            json_result = json.loads(exec_result.stdout)
+            try:
+              exec_result = run(['/bin/bash', '-c', data_exec.command], capture_output=True, text=True)
+              json_result = json.loads(exec_result.stdout)
+            except Exception as e:
+              json_result = json.loads('{"error":"%s"}' % e)
             self.settings.dashboard[dk][ck]['data'] = json_result
             break
