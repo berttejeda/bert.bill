@@ -86,11 +86,12 @@ You can install the app in any of the following ways:
 * Install pip package from pypi.org: `pip install bertdotbill`
 * Install pip package from locally cloned repo: <br />
 ```
-git clone https://github.com/berttejeda/bert.bill.git
+git clone -b ${REMOTE_BRANCH-main} https://github.com/berttejeda/bert.bill.git
 cd bert.bill
 nvm install
+npm config set timeout 100000
 npm install -g parcel yarn
-yarn install --frozen-lockfile
+yarn install --frozen-lockfile --network-timeout 100000
 yarn compile:ui:dev
 pip install .
 ```
