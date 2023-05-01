@@ -1,5 +1,6 @@
 {
   "extends": "@parcel/config-default",
+  "resolvers": ["parcel-resolver-ts-base-url", "..."],
   "transformers": {
     "*.{jsx,ts,tsx}": ["@parcel/transformer-typescript-tsc"]
   },  
