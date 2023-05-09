@@ -16,12 +16,12 @@ import './styles/style.css';
 import './index.scss'
 
 // Knowledgebase
-import Knowledgebase from './components/Knowledgebase/Knowledgebase'
-import MyNotes from './components/MyNotes/MyNotes'
+import Knowledgebase from 'components/Knowledgebase/Knowledgebase'
+import MyNotes from 'components/MyNotes/MyNotes'
 
 // Import pages
-import Dashboard from './components/Dashboard/Dashboard';
-import LessonPage  from './components/LessonPage/LessonPage';
+import Dashboard from 'components/Dashboard/Dashboard';
+import LessonPage  from 'components/LessonPage/LessonPage';
 
 if (window.performance) {
   if (performance.navigation.type == 1) {
