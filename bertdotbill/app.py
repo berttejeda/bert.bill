@@ -87,6 +87,9 @@ if static_assets_folder:
     app = Flask(__name__, static_url_path='', static_folder=static_assets_folder)
     if args.cors_origin:
       CORS(app, resources={r"*": {"origins": args.cors_origin}})
+    else:
+      logger.warning('CORS Policy effectively disabled, as no Origin Pattern specified')
+      CORS(app, resources={r"*": {"origins": "*"}})
 else:
     logger.info('Serving API Only, no static assets')
     app = Flask(__name__)
