@@ -4,6 +4,7 @@ from setuptools import setup
 import sysconfig
 import sys
 
+etc_dirname = 'etc'
 gui_dirname = 'bill.gui'
 
 cfg = ConfigParser.ConfigParser()
@@ -29,5 +30,7 @@ def tree(src):
   return [(data_file_path, result)]
 
 DATA_FILES = tree(gui_dirname)
+
+DATA_FILES += tree(etc_dirname)
 
 setup(data_files=DATA_FILES)

@@ -11,4 +11,4 @@ if [[ -f .env ]];then
   export $(grep -v -f <(echo -e "$(env)") <(echo -e "$(cut -d= -f1 .env)"))
 fi
 
-./bill $@
+bill $@

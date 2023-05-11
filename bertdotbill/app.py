@@ -20,8 +20,6 @@ default_footer_websocket_address, \
 default_webterminal_listen_host , \
 default_webterminal_listen_port, \
 default_rightpane_websocket_address, \
-default_dashboard_config_file, \
-default_sidebar_config_file, \
 default_verify_tls
 from bertdotbill.entrypoint import get_static_folder
 from bertdotbill.logger import Logger
@@ -57,18 +55,6 @@ app_config = AppConfig().initialize(
   verify_tls=verify_tls
 )
 
-sidebar_config = AppConfig().initialize(
-  args=vars(args),
-  config_file=args.sidebar_config_file or default_sidebar_config_file,
-  verify_tls=verify_tls
-)
-
-dashboard_config = AppConfig().initialize(
-  args=vars(args),
-  config_file=args.dashboard_config_file or default_dashboard_config_file,
-  verify_tls=verify_tls
-)
-
 if args.api_only:
     static_assets_folder = None
 else:
@@ -89,14 +75,10 @@ lessons = Lessons(
     )
 
 # Initialize Dashboard Settings
-dashboard = Dashboard(
-  settings=dashboard_config,
-  args=args)
+dashboard = Dashboard(args=args)
 
 # Initialize Sidebar Settings
-sidebar = SideBar(
-  settings=sidebar_config,
-  args=args)
+sidebar = SideBar(args=args)
 
 # Initialize Websocket handler
 websocket = WebSocket()

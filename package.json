@@ -8,7 +8,7 @@
   "scripts": {
     "build": "run-script-os",
     "build:installer": "bash -c './setup.sh build release --no-bump'",
-    "build:macos": "yarn clean:default && yarn compile:ui:prod && python build-macos.py py2app",
+    "build:macos": "yarn clean:default && yarn compile:ui:prod",
     "build:windows": "yarn clean:windows && yarn compile:ui:prod",
     "build:linux": "yarn clean:default && yarn compile:ui:prod",
     "clean": "run-script-os",
