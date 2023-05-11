@@ -11,13 +11,16 @@ services:
     container_name: bill
     command: 
       - -aio
+      - -f ./etc/lessons.yaml
+      - -fd ./etc/dashboard.yaml
+      - -fs ./etc/sidebar.yaml
     hostname: bert.bill
     ports:
       - 10000:10000
       - 10001:10001
     tty: true 
     environment:
-      - TZ="US/Eastern"
+      TZ: "US/Eastern"
 
 networks: 
   default: 
