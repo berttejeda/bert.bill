@@ -28,7 +28,10 @@ class Dashboard():
           data_exec = data.get('exec')
           if data_exec:
             try:
-              exec_result = run(['/bin/bash', '-c', data_exec.command], capture_output=True, text=True)
+              command = data_exec.command
+              command_args = ' '.join(data_exec.args)
+              exec_command = f"{command} {command_args}"
+              exec_result = run(['/bin/bash', '-c', exec_command], capture_output=True, text=True)
               json_result = json.loads(exec_result.stdout)
             except Exception as e:
               json_result = json.loads('{"error":"%s"}' % e)
