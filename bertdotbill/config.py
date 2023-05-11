@@ -2,7 +2,7 @@ from bertdotbill.defaults import default_settings
 from bertdotbill.defaults import default_config_file_name
 from bertdotbill.logger import Logger
 import os
-from bertdotconfig import Config
+from btconfig import Config
 
 logger = Logger().init_logger(__name__)
 
