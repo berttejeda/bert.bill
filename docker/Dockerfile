@@ -1,6 +1,4 @@
-FROM tecknicos/devops-cli:1.0.0
-
-WORKDIR /setup
+FROM tecknicos/devops-cli:1.0.1
 
 RUN sudo apt update 
 
@@ -8,11 +6,11 @@ RUN sudo apt install nginx -y
 
 RUN sudo mkdir -p /var/log/nginx
 
+WORKDIR /setup
+
 ADD . .
 
 RUN pip install .
-
-RUN pip install btecli
 
 WORKDIR /app
 
@@ -30,16 +28,18 @@ ENV USER=bill
 ENV GROUP=bill
 ENV USERHOME=/home/$USER
 ENV UID=6000
+ENV USER_PYTHON_LOCAL=/opt/python/.local
+ENV USER_PYTHON_LIB=$USER_PYTHON_LOCAL/lib
+ENV USER_PYTHON_BIN=$USER_PYTHON_LOCAL/bin
+ENV PATH="$USER_PYTHON_BIN:$PATH"
 
 RUN echo "===> Creating service user ..."  &&\
 sudo useradd -m -s /bin/bash -G sudo,docker --uid "$UID" "$USER"
 
 USER $USER
 
-RUN ecli plugins.install -R -r https://github.com/berttejeda/bert.ecli.plugins.git
+WORKDIR $USERHOME
 
 RUN ecli plugins.install -R -r https://github.com/berttejeda/bert.dashboard.plugins.git
-
-WORKDIR $USERHOME
 
 ENTRYPOINT [ "entrypoint.sh" ]
