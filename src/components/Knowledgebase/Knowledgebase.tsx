@@ -175,7 +175,7 @@ export default function Knowledgebase() {
     <div className='w-full'>
      
     { (apiPing) ?
-        <div>One Moment Please</div>
+      <div>One Moment Please</div>
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead>
