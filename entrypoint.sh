@@ -11,5 +11,8 @@ if [[ -f .env ]];then
   export $(grep -v -f <(echo -e "$(env)") <(echo -e "$(cut -d= -f1 .env)"))
 fi
 
+sudo /usr/sbin/nginx -g "daemon off;" &
+
 echo "Startup Command is bill ${@}"
+
 bill $@
