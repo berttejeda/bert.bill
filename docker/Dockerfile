@@ -14,10 +14,6 @@ RUN pip install .
 
 RUN pip install btecli
 
-RUN ecli plugins.install -R -r https://github.com/berttejeda/bert.ecli.plugins.git
-
-RUN ecli plugins.install -R -r https://github.com/berttejeda/bert.dashboard.plugins.git
-
 WORKDIR /app
 
 RUN sudo rm -rf /setup
@@ -39,6 +35,10 @@ RUN echo "===> Creating service user ..."  &&\
 sudo useradd -m -s /bin/bash -G sudo,docker --uid "$UID" "$USER"
 
 USER $USER
+
+RUN ecli plugins.install -R -r https://github.com/berttejeda/bert.ecli.plugins.git
+
+RUN ecli plugins.install -R -r https://github.com/berttejeda/bert.dashboard.plugins.git
 
 WORKDIR $USERHOME
 
