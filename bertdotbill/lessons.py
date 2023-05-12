@@ -4,7 +4,7 @@ import markdown
 from bertdotbill.extensions import NewTabExtension
 from jinja2 import Template
 from bertdotbill.logger import Logger
-from bertdotwebadapter import WebAdapter
+from btweb import WebAdapter
 import urllib.parse
 
 logger = Logger().init_logger(__name__)
