@@ -1,6 +1,7 @@
 __pycache__
 .idea
 .DS_Store
+.env
 .env.development.local
 .env.local
 .env.production.local
