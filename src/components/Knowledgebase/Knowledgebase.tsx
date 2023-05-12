@@ -175,7 +175,7 @@ export default function Knowledgebase() {
     <div className='w-full'>
      
     { (apiPing) ?
-      <div>One Moment Please</div>
+    
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead>
@@ -253,7 +253,8 @@ export default function Knowledgebase() {
         You can start your api locally via docker with:<br />
         <code>docker run -it --rm --name bill --network=host berttejeda/bill --api-only</code><br />
         Make sure to refresh this page once your API is running.
-        Read more at <a href="https://github.com/berttejeda/bert.bill">https://github.com/berttejeda/bert.bill</a></div> 
+        Read more at <a href="https://github.com/berttejeda/bert.bill">https://github.com/berttejeda/bert.bill</a>
+        </div> 
         
       }
 
