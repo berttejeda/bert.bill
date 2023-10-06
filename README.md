@@ -1,3 +1,16 @@
+**NOTICE**
+-------------
+
+**This project is being superceded by [bert.dashboard](https://github.com/berttejeda/bert.dashboard)**
+
+If you are interested in working on the project, even when archived you can still create a fork of it.
+
+<br/><br/><br/>
+
+---
+
+<br/><br/><br/>
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
